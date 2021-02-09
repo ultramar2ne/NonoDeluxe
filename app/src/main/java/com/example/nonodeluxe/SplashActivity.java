@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -25,9 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        FirebaseApp.initializeApp(this);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
@@ -36,16 +35,17 @@ public class SplashActivity extends AppCompatActivity {
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.default_config);
 
-
         mFirebaseRemoteConfig.fetchAndActivate()
                 .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
                     @Override
                     public void onComplete(@NonNull Task<Boolean> task) {
                         if (task.isSuccessful()) {
-                            mFirebaseRemoteConfig.fetchAndActivate();
+                            boolean updated = task.getResult();
+                            Toast.makeText(SplashActivity.this, "Fetch and activate succeeded",
+                                    Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(SplashActivity.this,"Fetch failed",Toast.LENGTH_SHORT).show();
-                            finish();
+                            Toast.makeText(SplashActivity.this, "Fetch failed",
+                                    Toast.LENGTH_SHORT).show();
                         }
                         displayMessage();
                     }

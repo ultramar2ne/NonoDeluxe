@@ -3,11 +3,11 @@
 <defaultsMap>
     <entry>
         <key>splash_message_caps</key>
-        <value>need to repair</value>
+        <value>false</value>
     </entry>
     <entry>
         <key>splash_message</key>
-        <value>Welcome to my awesome app!</value>
+        <value>Time to repair</value>
     </entry>
 </defaultsMap>
     <!-- END xml_defaults -->
