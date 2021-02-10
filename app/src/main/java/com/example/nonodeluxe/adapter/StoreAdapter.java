@@ -13,6 +13,8 @@ import com.example.nonodeluxe.viewholder.StoreListViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+import java.util.ArrayList;
+
 public class StoreAdapter extends FirebaseRecyclerAdapter<StoreItem, StoreListViewHolder> {
     private OnItemClickListener onItemClickListener;
 

@@ -44,9 +44,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (snapshot.child(input_id).exists()){
                             if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
-                                    Preferences.setString(LoginActivity.this,"id",input_id);
-                                    Preferences.setString(LoginActivity.this,"pw",input_pw);
-                                    startActivity(new Intent(getApplicationContext(),EmpMainActivity.class));
+                                Preferences.setString(LoginActivity.this,"id",input_id);
+                                Preferences.setString(LoginActivity.this,"pw",input_pw);
+
+//                                unit_code = snapshot.child(input_id).child("unit_code").getValue(Integer.class);
+//                                Preferences.setInt(LoginActivity.this, "unit_code",unit_code);
+                                startActivity(new Intent(getApplicationContext(),EmpMainActivity.class));
+
+
                             } else {
                                 Toast.makeText(getApplicationContext(),"비밀번호틀림",Toast.LENGTH_SHORT).show();
                             }
