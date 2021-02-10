@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,23 +46,6 @@ public class EmpMainActivity extends AppCompatActivity {
         setRecyclerView();
     }
 
-    private void setRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EmpMainActivity.this);
-        mAdapter = new ArrayStoreAdapter(storeItems);
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_main);
-        mRecyclerView.setHasFixedSize(true);
-
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new StoreAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                String sum = storeItems.get(position).getStore_name();
-                Toast.makeText(getApplicationContext(),sum,Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void setStoreData() {
         FirebaseDatabase.getInstance().getReference()
@@ -89,6 +73,7 @@ public class EmpMainActivity extends AppCompatActivity {
 //        sortbyAge.addListenerForSingleValueEvent(listener);
     }
 
+
     private void getUserData() {
         FirebaseDatabase.getInstance().getReference()
                 .child("info").child("employee").child(Preferences.getString(EmpMainActivity.this,"id"))
@@ -106,8 +91,28 @@ public class EmpMainActivity extends AppCompatActivity {
 
                     }
                 });
-
         emp_name.setText(empItem.getName());
+    }
 
+
+    private void setRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EmpMainActivity.this);
+        mAdapter = new ArrayStoreAdapter(storeItems);
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_main);
+        mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new StoreAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String sum = storeItems.get(position).getStore_name();
+                Toast.makeText(getApplicationContext(),sum,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("store_name",sum);
+                startActivity(intent);
+            }
+        });
     }
 }

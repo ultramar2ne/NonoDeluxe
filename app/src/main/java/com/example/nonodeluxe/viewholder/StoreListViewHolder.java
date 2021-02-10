@@ -1,5 +1,6 @@
 package com.example.nonodeluxe.viewholder;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">NonoDeluxe</string>
 
-    <string name="login_login">로그인</string>
+<!--    activity_login-->
+    <string name="txt_login">로그인</string>
+    <string name="hint_id">id</string>
+    <string name="hint_pw">password</string>
 
 </resources>
