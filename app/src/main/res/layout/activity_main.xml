@@ -18,4 +18,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <Button
+        android:id="@+id/main_btn_prdList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제품목록"
+        android:textSize="20sp"
+        android:fontFamily="@font/jsdongkang"
+        app:layout_constraintTop_toTopOf="@id/main_txt_storeName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

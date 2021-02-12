@@ -10,23 +10,19 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nonodeluxe.adapter.ArrayStoreAdapter;
 import com.example.nonodeluxe.adapter.StoreAdapter;
 import com.example.nonodeluxe.model.EmpItem;
 import com.example.nonodeluxe.model.StoreItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class EmpMainActivity extends AppCompatActivity {
 
-    private ArrayStoreAdapter mAdapter;
+    private StoreAdapter adapter;
 
     private TextView unit_name, emp_name;
     private ArrayList<StoreItem> storeItems = new ArrayList<>();
@@ -61,7 +57,7 @@ public class EmpMainActivity extends AppCompatActivity {
 //
 //                    }
                 }
-                mAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -97,14 +93,14 @@ public class EmpMainActivity extends AppCompatActivity {
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EmpMainActivity.this);
-        mAdapter = new ArrayStoreAdapter(storeItems);
+        adapter = new StoreAdapter(storeItems);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_main);
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(adapter);
 
-        mAdapter.setOnItemClickListener(new StoreAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new StoreAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 String sum = storeItems.get(position).getStore_name();
