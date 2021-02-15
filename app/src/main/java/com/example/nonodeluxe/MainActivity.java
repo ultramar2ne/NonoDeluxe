@@ -1,14 +1,22 @@
 package com.example.nonodeluxe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.nonodeluxe.fragment.CalendarFragment;
+import com.example.nonodeluxe.fragment.HomeFragment;
+import com.example.nonodeluxe.fragment.SettingFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity {
 
     TextView textView;
     Button btn_prdList;
@@ -18,21 +26,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = getIntent();
-        String store_name = intent.getStringExtra("store_name");
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        textView = (TextView)findViewById(R.id.main_txt_storeName);
-        textView.setText(store_name);
-
-        btn_prdList = (Button)findViewById(R.id.main_btn_prdList);
-        btn_prdList.setOnClickListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == btn_prdList){
-            Intent intent = new Intent(this,PrdListActivity.class);
-            startActivity(intent);
-        }
-    }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
+
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_home:
+                            selectedFragment = new HomeFragment();
+                            break;
+                        case R.id.nav_calendar:
+                            selectedFragment = new CalendarFragment();
+                            break;
+                        case R.id.nav_menu:
+                            selectedFragment = new SettingFragment();
+                            break;
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+                    return true;
+                }
+            };
 }
