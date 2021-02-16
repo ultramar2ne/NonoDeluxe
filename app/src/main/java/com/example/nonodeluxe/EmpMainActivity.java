@@ -34,7 +34,7 @@ public class EmpMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_main);
 
-        unit_name = (TextView)findViewById(R.id.main_unitName);
+        unit_name = (TextView)findViewById(R.id.home_unitName);
         emp_name = (TextView)findViewById(R.id.main_empName);
 
         getUserData();
