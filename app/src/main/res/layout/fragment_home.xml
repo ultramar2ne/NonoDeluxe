@@ -35,11 +35,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|top"
-                    android:text="봉담도서관점"
                     android:fontFamily="@font/jsdongkang"
                     android:textStyle="bold"
                     android:textSize="50dp"
                     android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/home_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"/>
 
                 <TextView
                     android:id="@+id/main_empName"
