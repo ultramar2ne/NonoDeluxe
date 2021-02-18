@@ -1,10 +1,10 @@
 package com.example.nonodeluxe.model;
 
-public class ItemMenu {
+public class MainMenuItem {
     private int imageResource;
     private String text;
 
-    public ItemMenu(int imageResource, String text){
+    public MainMenuItem(int imageResource, String text){
         this.imageResource = imageResource;
         this.text = text;
     }

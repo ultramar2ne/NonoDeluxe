@@ -8,16 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.model.ItemMenu;
+import com.example.nonodeluxe.model.MainMenuItem;
 import com.example.nonodeluxe.viewholder.MenuViewHolder;
 
 import java.util.ArrayList;
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
+public class MainMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
     private OnItemClickListener onItemClickListener;
-    private ArrayList<ItemMenu> menuItems;
+    private ArrayList<MainMenuItem> menuItems;
 
-    public MenuAdapter(ArrayList<ItemMenu> menuItems) {
+    public MainMenuAdapter(ArrayList<MainMenuItem> menuItems) {
         this.menuItems = menuItems;
     }
 
@@ -25,7 +25,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(MenuAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(MainMenuAdapter.OnItemClickListener listener){
         onItemClickListener = listener;
     }
 
@@ -40,7 +40,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
-        ItemMenu currentItem = menuItems.get(position);
+        MainMenuItem currentItem = menuItems.get(position);
 
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView.setText(currentItem.getText());

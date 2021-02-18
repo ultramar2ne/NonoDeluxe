@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.adapter.MenuAdapter;
+import com.example.nonodeluxe.adapter.MainMenuAdapter;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder {
 
@@ -16,7 +16,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder {
     public TextView textView;
 
 
-    public MenuViewHolder(@NonNull View view, final MenuAdapter.OnItemClickListener onItemClickListener) {
+    public MenuViewHolder(@NonNull View view, final MainMenuAdapter.OnItemClickListener onItemClickListener) {
         super(view);
         imageView = view.findViewById(R.id.item_menuSrc);
         textView = view.findViewById(R.id.item_menuName);
