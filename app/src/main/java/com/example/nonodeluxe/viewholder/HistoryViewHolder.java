@@ -7,22 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.adapter.PrdListAdapter;
+import com.example.nonodeluxe.adapter.HistoryAdapter;
+import com.example.nonodeluxe.adapter.StoreAdapter;
 
-public class PrdListViewHolder extends RecyclerView.ViewHolder {
+public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView prd_name;
-    public TextView category;
-    public TextView stock;
-    public TextView standard;
+    public TextView store_code;
+    public TextView store_name;
 
-
-    public PrdListViewHolder(@NonNull final View view, final PrdListAdapter.OnItemClickListener listener) {
+    public HistoryViewHolder(@NonNull final View view, final HistoryAdapter.OnItemClickListener listener) {
         super(view);
-        prd_name = view.findViewById(R.id.prd_name);
-        category = view.findViewById(R.id.prd_category);
-        stock = view.findViewById(R.id.prd_stock);
-        standard = view.findViewById(R.id.prd_standard);
+        store_code = view.findViewById(R.id.item_storeCode);
+        store_name = view.findViewById(R.id.item_storeName);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -11,7 +11,6 @@
         android:id="@+id/item_storeCode"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="54호점"
         android:fontFamily="@font/jsdongkang"
         android:textColor="@color/xd_dark"
         android:textSize="20sp"

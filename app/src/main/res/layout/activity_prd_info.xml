@@ -14,66 +14,56 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:expandedTitleGravity="left|bottom"
+            app:expandedTitleGravity="center"
+            app:expandedTitleMarginBottom="60dp"
             app:contentScrim="@color/colorPrimaryDark">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="fitXY"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/home_storeName"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:fontFamily="@font/jsdongkang"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMaxTextSize="50sp"
-                    android:autoSizeMinTextSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
-<!--                <Button-->
-<!--                    android:id="@+id/textSwitcher"-->
-<!--                    android:layout_width="60dp"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    app:layout_constraintRight_toRightOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintLeft_toRightOf="@id/home_storeName"/>-->
-
-                <TextView
-                    android:id="@+id/main_empName"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/info_input_btn"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:gravity="left|top"
-                    android:text="담당자: 최진욱"
+                    android:layout_margin="10dp"
                     android:fontFamily="@font/jsdongkang"
+                    android:text="입고"
+                    android:textColor="@color/xd_dark"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textSize="25dp"
-                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_storeName"/>
+                    app:layout_constraintRight_toLeftOf="@id/info_output_btn"
+                    app:layout_constraintHorizontal_chainStyle="packed"/>
+
+                <Button
+                    android:id="@+id/info_output_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="출고"
+                    android:textColor="@color/xd_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/jsdongkang"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/info_input_btn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/prdInfo_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fontFamily="@font/jsdongkang"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                app:title="멸균우유"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -83,7 +73,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -91,13 +80,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/textSwitcher"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"/>
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_home"
+                android:id="@+id/recycler_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

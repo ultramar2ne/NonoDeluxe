@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -45,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new HomeFragment();
+
                             break;
                         case R.id.nav_calendar:
                             selectedFragment = new CalendarFragment();

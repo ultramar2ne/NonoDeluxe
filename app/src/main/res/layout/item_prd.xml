@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    app:cardElevation="3dp">
+    android:layout_height="70dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/prd_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="category"
+        android:textSize="15sp"
+        android:fontFamily="@font/jsdongkang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/prd_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintVertical_bias="1"/>
 
-        <TextView
-            android:id="@+id/prd_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="category"
-            android:textSize="15sp"
-            android:fontFamily="@font/jsdongkang"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/prd_name"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintVertical_bias="1"/>
+    <TextView
+        android:id="@+id/prd_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="prd_name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/jsdongkang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"/>
 
-        <TextView
-            android:id="@+id/prd_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="prd_name"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/jsdongkang"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"/>
+    <TextView
+        android:id="@+id/prd_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stock"
+        android:textSize="20sp"
+        android:fontFamily="@font/jsdongkang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/prd_standard"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_bias="0.95"/>
 
-        <TextView
-            android:id="@+id/prd_stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stock"
-            android:textSize="20sp"
-            android:fontFamily="@font/jsdongkang"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/prd_standard"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="수량입"
+        android:gravity="right"
+        android:textSize="20sp"
+        android:fontFamily="@font/jsdongkang"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/prd_stock" />
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

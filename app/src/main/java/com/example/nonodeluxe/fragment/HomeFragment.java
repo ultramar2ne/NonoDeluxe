@@ -1,6 +1,7 @@
 package com.example.nonodeluxe.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.example.nonodeluxe.PrdListActivity;
+import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
-import com.example.nonodeluxe.adapter.StoreAdapterSpinner;
 import com.example.nonodeluxe.model.MainMenuItem;
 import com.example.nonodeluxe.model.StoreItem;
 import com.google.firebase.database.DataSnapshot;
@@ -31,18 +32,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClickListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClickListener, View.OnClickListener{
 
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
-    private StoreAdapterSpinner spinnerAdapter;
 
-    Spinner spinner;
-    TextView unit_name;
+    TextView storeName;
+    TextView empName;
+    Button switcher;
 
     private ArrayList<MainMenuItem> menuItems;
     private ArrayList<StoreItem> storeItems;
     private ArrayList<String> strings;
+
+    int stringIndex = 0;
+    String inputData;
 
     public HomeFragment() {
     }
@@ -58,18 +62,34 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            inputData = getArguments().getString("store_name");
         }
-
-        fillStoreList();
-        fillEampleList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        unit_name = view.findViewById(R.id.home_unitName);
-        unit_name.setOnClickListener(this);
+
+        fillStoreList();
+        fillExampleList();
+
+        storeName = view.findViewById(R.id.home_storeName);
+        empName = view.findViewById(R.id.main_empName);
+        empName.setText("담당자: " +  Preferences.getString(getActivity(),"id"));
+//        storeName.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                TextView textView = new TextView(getContext());
+////                textView.setAutoSizeTextTypeUniformWithConfiguration(20,50,TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM,1);
+//                textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+//                textView.setTextSize(0x32);
+//                textView.setTextColor(Color.rgb(41,41,41));
+//                return textView;
+//            }
+//        });
+        switcher = view.findViewById(R.id.textSwitcher);
+        switcher.setOnClickListener(this);
 
         recyclerView = view.findViewById(R.id.recycler_home);
         recyclerView.setHasFixedSize(true);
@@ -82,15 +102,6 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
         recyclerView.setAdapter(mainMenuAdapter);
 
 
-        spinner = view.findViewById(R.id.home_spinner);
-
-        ArrayAdapter<String> adpater1 = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,strings);
-        adpater1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerAdapter = new StoreAdapterSpinner(getActivity(),storeItems);
-        spinner.setAdapter(adpater1);
-
-        spinner.setOnItemSelectedListener(this);
 
         return view;
     }
@@ -98,28 +109,38 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     private void fillStoreList() {
         storeItems = new ArrayList<>();
         strings = new ArrayList<>();
+        int unitCode = Preferences.getInt(getActivity(),"unitCode");
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("info").child("store").orderByChild("unit_code").equalTo(5001).
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        storeItems.clear();
-                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                            String key = currentSnapshot.getKey();
-                            StoreItem storeItem = currentSnapshot.getValue(StoreItem.class);
-                            storeItems.add(storeItem);
-                            strings.add(storeItem.getStore_name());
+        if (unitCode == 5000){
+//            Intent intent = getActivity().getParentActivityIntent();
+////            String store_name = intent.getStringExtra("store_name");
+//            storeName.setText(inputData);
+//            switcher.setOnClickListener(null);
+        } else {
+            FirebaseDatabase.getInstance().getReference()
+                    .child("info").child("store").orderByChild("unit_code").equalTo(unitCode).
+                    addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            storeItems.clear();
+                            for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                                String key = currentSnapshot.getKey();
+                                StoreItem storeItem = currentSnapshot.getValue(StoreItem.class);
+                                storeItems.add(storeItem);
+                                strings.add(storeItem.getStore_name());
+                            }
+                            Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
+                            storeName.setText(strings.get(0));
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
-    private void fillEampleList() {
+    private void fillExampleList() {
         menuItems = new ArrayList<>();
 
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"입고"));
@@ -131,40 +152,32 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
 
     @Override
     public void onItemClick(int position) {
-        if (position == 1){
-
-        }
-        if (position == 2){
-
-        }
-        if (position == 3){
-            Intent intent = new Intent(getActivity(), PrdListActivity.class);
-            startActivity(intent);
+        switch (position){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                Intent intent = new Intent(getActivity(), PrdListActivity.class);
+                intent.putExtra("hello","hello");
+                startActivity(intent);
+                break;
+            case 4:
+                break;
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (v == unit_name){
-
+        if (v == switcher){
+            if (stringIndex == strings.size() - 1){
+                stringIndex = 0;
+                storeName.setText(strings.get(stringIndex));
+            } else {
+                storeName.setText(strings.get(++stringIndex));
+            }
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        Object string = adapterView.getItemAtPosition(i);
-        if (string != null){
-            Toast.makeText(getActivity(),strings.get(i),Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(),"hello",Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        Toast.makeText(getActivity(),"젠장 제발좀",Toast.LENGTH_SHORT).show();
     }
 }

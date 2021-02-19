@@ -12,16 +12,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nonodeluxe.model.EmpItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edt_id, edt_pw;
     Button btn_login;
+
+    EmpItem empItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +49,21 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (snapshot.child(input_id).exists()){
                             if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
+
+                                empItem = snapshot.child(input_id).getValue(EmpItem.class);
+                                Toast.makeText(getApplicationContext(),empItem.getName(),Toast.LENGTH_SHORT).show();
+
                                 Preferences.setString(LoginActivity.this,"id",input_id);
                                 Preferences.setString(LoginActivity.this,"pw",input_pw);
+                                Preferences.setInt(LoginActivity.this,"unitCode",empItem.getUnit_code());
 
-//                                unit_code = snapshot.child(input_id).child("unit_code").getValue(Integer.class);
-//                                Preferences.setInt(LoginActivity.this, "unit_code",unit_code);
-                                startActivity(new Intent(getApplicationContext(),EmpMainActivity.class));
-
+                                if (empItem.getUnit_code() == 5000){
+                                    startActivity(new Intent(getApplicationContext(),EmpMainActivity.class));
+                                } else if (empItem.getUnit_code() > 5000) {
+                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                } else {
+                                    // for store
+                                }
 
                             } else {
                                 Toast.makeText(getApplicationContext(),"비밀번호틀림",Toast.LENGTH_SHORT).show();
@@ -59,12 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"없는아이디",Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
+
             }
         });
     }

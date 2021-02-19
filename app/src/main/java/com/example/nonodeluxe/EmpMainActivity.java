@@ -2,6 +2,7 @@ package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.StoreAdapter;
+import com.example.nonodeluxe.fragment.HomeFragment;
 import com.example.nonodeluxe.model.EmpItem;
 import com.example.nonodeluxe.model.StoreItem;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +36,7 @@ public class EmpMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emp_main);
 
-        unit_name = (TextView)findViewById(R.id.home_unitName);
+        unit_name = (TextView)findViewById(R.id.home_storeName);
         emp_name = (TextView)findViewById(R.id.main_empName);
 
         getUserData();
@@ -53,9 +55,6 @@ public class EmpMainActivity extends AppCompatActivity {
                     String key = currentSnapshot.getKey();
                     StoreItem storeItem = currentSnapshot.getValue(StoreItem.class);
                     storeItems.add(storeItem);
-//                    if ((int)snapshot.child("unit_code").getValue() == Preferences.getInt(EmpMainActivity.this,"unit_code")) {
-//
-//                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -107,6 +106,11 @@ public class EmpMainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),sum,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.putExtra("store_name",sum);
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("store_name",sum);
+//                HomeFragment home = new HomeFragment();
+//                home.setArguments(bundle);
                 startActivity(intent);
             }
         });

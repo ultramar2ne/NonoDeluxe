@@ -33,10 +33,8 @@ public class PrdListActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.prdlist_toolbar);
         toolbar.setTitle("제품 목록");
 
-
         setPrdData();
         setRecyclerView();
-
     }
 
     private void setPrdData() {
@@ -72,10 +70,11 @@ public class PrdListActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new PrdListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Toast.makeText(getApplicationContext(),sum,Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                intent.putExtra("store_name",sum);
-//                startActivity(intent);
+                String currentPrdName = prdItems.get(position).getName();
+                Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+                intent.putExtra("prd_name",currentPrdName);
+                startActivity(intent);
             }
         });
     }

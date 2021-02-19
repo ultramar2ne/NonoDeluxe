@@ -46,7 +46,8 @@ public class PrdListAdapter extends RecyclerView.Adapter<PrdListViewHolder> {
 
         holder.prd_name.setText(currentItem.getName());
         holder.category.setText(currentItem.getCategory());
-        holder.stock.setText(currentItem.getStock() + currentItem.getStandard());
+        holder.stock.setText(currentItem.getStock());
+        holder.standard.setText(currentItem.getStandard());
     }
 
     @Override
