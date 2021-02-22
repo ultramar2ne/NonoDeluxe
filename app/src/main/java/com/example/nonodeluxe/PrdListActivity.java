@@ -17,6 +17,7 @@ import com.example.nonodeluxe.model.HistoryItem;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -26,6 +27,10 @@ public class PrdListActivity extends AppCompatActivity {
 
     private PrdListAdapter adapter;
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
+
+    DatabaseReference databaseReal = FirebaseDatabase.getInstance().getReference().child("real");
+
+//    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
 
     private ArrayList<String> nameList = new ArrayList<>();
@@ -38,21 +43,44 @@ public class PrdListActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.prdlist_toolbar);
         toolbar.setTitle("제품 목록");
 
-        setPrdData();
+//        setPrdData();
         setStockData();
         setRecyclerView();
     }
 
     private void setStockData() {
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("real").child("history").child("32")
+        //thread 처리 필요
+        databaseReal.child("history").child("32")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot current : snapshot.getChildren()){
-                            nameList.add(current.getKey());
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                            final String key = currentSnapshot.getKey();
+//                            currentSnapshot.
+
+                            FirebaseDatabase.getInstance().getReference().child("real").child("product")
+                                    .addValueEventListener (new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot prd : snapshot.getChildren()){
+                                        PrdItem prdItem = prd.getValue(PrdItem.class);
+                                        if (prdItem.getName().equals(key)){
+//                                            prdItem.setStock(historyItem.getStock());
+                                            prdItems.add(prdItem);
+                                            break;
+                                        }
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
+
                     }
 
                     @Override
@@ -100,9 +128,6 @@ public class PrdListActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     private void setRecyclerView() {

@@ -132,7 +132,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         Toast.makeText(getApplicationContext(),picker.getValue() + "",Toast.LENGTH_SHORT).show();
 
         Date mDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         String getTime = simpleDateFormat.format(mDate);
 
         int currentStock;

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.PrdListActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
@@ -161,6 +162,7 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
                 break;
             case 3:
                 Intent intent = new Intent(getActivity(), PrdListActivity.class);
+                Preferences.setString(getActivity(),String.valueOf(storeItems.get(stringIndex).getStore_code()),"currentStoreCode");
                 intent.putExtra("hello","hello");
                 startActivity(intent);
                 break;
