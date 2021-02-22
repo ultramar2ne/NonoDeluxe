@@ -8,17 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.HistoryAdapter;
-import com.example.nonodeluxe.adapter.StoreAdapter;
 
 public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView store_code;
-    public TextView store_name;
+    public TextView history_date;
+    public TextView history_type;
+    public TextView history_changeStock;
+    public TextView history_stock;
 
     public HistoryViewHolder(@NonNull final View view, final HistoryAdapter.OnItemClickListener listener) {
         super(view);
-        store_code = view.findViewById(R.id.item_storeCode);
-        store_name = view.findViewById(R.id.item_storeName);
+        history_date = view.findViewById(R.id.history_date);
+        history_type = view.findViewById(R.id.history_txt_change);
+        history_changeStock = view.findViewById(R.id.history_change);
+        history_stock = view.findViewById(R.id.history_stock);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

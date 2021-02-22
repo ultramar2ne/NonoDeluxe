@@ -32,4 +32,20 @@ public class PrdItem {
     public String getStandard() {
         return standard;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setStandard(String standard) {
+        this.standard = standard;
+    }
 }
