@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">NonoDeluxe</string>
 
-    <string name="login_login">로그인</string>
+    <!--    activity_login-->
+    <string name="txt_login">로그인</string>
+    <string name="hint_id">id</string>
+    <string name="hint_pw">password</string>
+
+    <!--    menu_bottomNavigation-->
+    <string name="menu_home">home</string>
+    <string name="menu_calendar">calendar</string>
+    <string name="menu_menu">menu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

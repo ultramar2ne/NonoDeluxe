@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="3dp">
+    android:orientation="horizontal"
+    android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center">
+    <TextView
+        android:id="@+id/item_storeCode"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jsdongkang"
+        android:textColor="@color/xd_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="right"/>
 
-        <TextView
-            android:id="@+id/item_storeCode"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="54호점"
-            android:fontFamily="@font/jsdongkang"
-            android:textColor="@color/xd_dark"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="right"/>
+    <TextView
+        android:id="@+id/item_storeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/xd_dark"
+        android:fontFamily="@font/jsdongkang"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/item_storeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/xd_dark"
-            android:fontFamily="@font/jsdongkang"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
