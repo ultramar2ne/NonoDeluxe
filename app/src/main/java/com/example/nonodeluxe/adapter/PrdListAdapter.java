@@ -21,11 +21,11 @@ import java.util.List;
 
 public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
-    private ArrayList<MyItem> prdItems = new ArrayList<>();
+    private ArrayList<PrdItem> prdItems = new ArrayList<>();
 
     private PrdCase sel_type;
 
-    public PrdListAdapter(PrdCase sel_type, ArrayList<MyItem> prdItems) {
+    public PrdListAdapter(PrdCase sel_type, ArrayList<PrdItem> prdItems) {
         this.sel_type = sel_type;
         this.prdItems = prdItems;
     }

@@ -32,7 +32,10 @@ import java.util.ArrayList;
 public class PrdListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private PrdListAdapter adapter;
-    private ArrayList<MyItem> prdItems = new ArrayList<>();
+    private ArrayList<HistoryItem> stockItems = new ArrayList<>();
+    private ArrayList<String> stockKeys = new ArrayList<>();
+    private ArrayList<PrdItem> prdItems = new ArrayList<>();
+    private ArrayList<PrdItem> etcItems = new ArrayList<>();
 
     DatabaseReference databaseReal = FirebaseDatabase.getInstance().getReference().child("real");
 
@@ -53,44 +56,24 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
         btn_plus = (ImageButton) findViewById(R.id.prdList_btn_add);
         btn_plus.setOnClickListener(this);
 
-//        setPrdData();
         setStockData();
+        setPrdData();
         setRecyclerView();
     }
 
     private void setStockData() {
 
-        //thread 처리 필요
+        // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
         databaseReal.child("history").child("32")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                            final String key = currentSnapshot.getKey();
-//                            currentSnapshot.
-
-                            FirebaseDatabase.getInstance().getReference().child("real").child("product")
-                                    .addValueEventListener (new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for (DataSnapshot prd : snapshot.getChildren()){
-                                        PrdItem prdItem = prd.getValue(PrdItem.class);
-                                        if (prdItem.getName().equals(key)){
-//                                            prdItem.setStock(historyItem.getStock());
-                                            prdItems.add(prdItem);
-                                            break;
-                                        }
-                                    }
-                                    adapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+//                            HistoryItem currentItem = currentSnapshot.getValue(HistoryItem.class);
+                            String currentkey = currentSnapshot.getKey();
+//                            stockItems.add(currentItem);
+                            stockKeys.add(currentkey);
                         }
-
                     }
 
                     @Override
@@ -102,43 +85,36 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setPrdData() {
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("real").child("product").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                prdItems.clear();
-                for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                    String key = currentSnapshot.getKey();
-                    final PrdItem prdItem = currentSnapshot.getValue(PrdItem.class);
+        databaseReal.child("real").child("product")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                            boolean check = false;
+                            PrdItem currentItem = currentSnapshot.getValue(PrdItem.class);
 
-                    FirebaseDatabase.getInstance().getReference()
-                            .child("real").child("history").child("32").child(prdItem.getName())
-                            .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                    for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                                        HistoryItem historyItem = snapshot1.getValue(HistoryItem.class);
-                                        Toast.makeText(getApplicationContext(),historyItem.getStock() + "", Toast.LENGTH_SHORT).show();
-                                        prdItem.setStock(historyItem.getStock());
-                                    }
+                            for (int i = 0 ; i < stockKeys.size() ; i ++){
+                                if (currentItem.getName().equals(stockKeys.get(i))){
+                                    check = true;
+//                                    currentItem.setStock(stockItems.get(i).getStock());
+                                    prdItems.add(currentItem);
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                            if (!check){
+                                etcItems.add(currentItem);
+                            }
+                        }
+                    }
 
-                                }
-                            });
-                    prdItems.add(prdItem);
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
+
     }
+
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PrdListActivity.this);
@@ -149,24 +125,24 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
 
-//        adapter.setOnItemClickListener(new PrdListAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                String currentPrdName = prdItems.get(position).getName();
-//                Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
-//                intent.putExtra("prd_name",currentPrdName);
-//                startActivity(intent);
-//            }
-//        });
+        adapter.setOnItemClickListener(new PrdListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String currentPrdName = prdItems.get(position).getName();
+                Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+                intent.putExtra("prd_name",currentPrdName);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btn_plus){
+        if (v == btn_plus){         //open prdAdd Activity
             FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
 
-            PrdAddFragment fragment = new PrdAddFragment();
+            PrdAddFragment fragment = PrdAddFragment.newInstance(etcItems);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);

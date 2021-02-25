@@ -1,5 +1,6 @@
 package com.example.nonodeluxe.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +32,28 @@ public class PrdAddFragment extends Fragment {
     RecyclerView recyclerView;
     PrdListAdapter adapter;
 
-    ArrayList<MyItem> prdItems = new ArrayList<>();
+    ArrayList<PrdItem> prdItems = new ArrayList<>();
+    ArrayList<PrdItem> addItems = new ArrayList<>();
 
 
     public PrdAddFragment() {
         // Required empty public constructor
+    }
+
+    public static PrdAddFragment newInstance(ArrayList<PrdItem> prdItems){
+        PrdAddFragment fragment = new PrdAddFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("ETC",prdItems);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            prdItems = (ArrayList<PrdItem>) getArguments().getSerializable("ETC");
+        }
     }
 
     @Override
@@ -44,7 +63,7 @@ public class PrdAddFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_prd_add, container, false);
         recyclerView = view.findViewById(R.id.prdAdd_recycler);
 
-        fillData();
+//        fillData();
         setRecyclerView();
 
 
