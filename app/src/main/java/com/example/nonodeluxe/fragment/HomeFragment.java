@@ -52,13 +52,6 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     public HomeFragment() {
     }
 
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +141,7 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"hello"));
+//        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"hello"));
     }
 
     @Override
@@ -165,8 +158,6 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
                 Preferences.setString(getActivity(),String.valueOf(storeItems.get(stringIndex).getStore_code()),"currentStoreCode");
                 intent.putExtra("hello","hello");
                 startActivity(intent);
-                break;
-            case 4:
                 break;
         }
     }

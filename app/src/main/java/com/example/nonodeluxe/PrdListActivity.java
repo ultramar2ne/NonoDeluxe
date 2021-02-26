@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class PrdListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private PrdListAdapter adapter;
-    private ArrayList<HistoryItem> stockItems = new ArrayList<>();
+    private ArrayList<Integer> stockItems = new ArrayList<>();
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private ArrayList<PrdItem> etcItems = new ArrayList<>();
@@ -64,14 +64,14 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
     private void setStockData() {
 
         // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
-        databaseReal.child("history").child("32")
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("stock").child("32")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-//                            HistoryItem currentItem = currentSnapshot.getValue(HistoryItem.class);
                             String currentkey = currentSnapshot.getKey();
-//                            stockItems.add(currentItem);
+                            stockItems.add(currentSnapshot.getValue(Integer.class));
                             stockKeys.add(currentkey);
                         }
                     }
@@ -85,7 +85,8 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setPrdData() {
 
-        databaseReal.child("real").child("product")
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("product")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,7 +97,7 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
                             for (int i = 0 ; i < stockKeys.size() ; i ++){
                                 if (currentItem.getName().equals(stockKeys.get(i))){
                                     check = true;
-//                                    currentItem.setStock(stockItems.get(i).getStock());
+                                    currentItem.setStock(stockItems.get(i));
                                     prdItems.add(currentItem);
                                 }
                             }
@@ -105,6 +106,7 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
                                 etcItems.add(currentItem);
                             }
                         }
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
