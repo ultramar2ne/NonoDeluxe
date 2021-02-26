@@ -35,18 +35,18 @@
 
 
 
-    <CheckBox
-        android:id="@+id/prdChk_checkbox"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:textSize="20sp"
-        android:fontFamily="@font/jsdongkang"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/prdChk_name"
-        app:layout_constraintHorizontal_bias="1"/>
+<!--    <CheckBox-->
+<!--        android:id="@+id/prdChk_checkbox"-->
+<!--        android:layout_width="70dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="left"-->
+<!--        android:textSize="20sp"-->
+<!--        android:fontFamily="@font/jsdongkang"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toRightOf="@id/prdChk_name"-->
+<!--        app:layout_constraintHorizontal_bias="1"/>-->
 
 
 

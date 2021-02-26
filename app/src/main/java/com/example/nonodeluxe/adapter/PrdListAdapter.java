@@ -3,21 +3,19 @@ package com.example.nonodeluxe.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.MyItemView;
 import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
 import com.example.nonodeluxe.viewholder.PrdAddViewHolder;
 import com.example.nonodeluxe.viewholder.PrdListViewHolder;
+import com.example.nonodeluxe.viewholder.PrdNewViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
@@ -48,8 +46,12 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd,parent,false);
             return new PrdListViewHolder(view, onItemClickListener);
         } else if (sel_type == PrdCase.ADD){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_checkbox,parent,false);
-            return new PrdAddViewHolder(view);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add,parent,false);
+            return new PrdAddViewHolder(view, onItemClickListener);
+        } else if (sel_type == PrdCase.NEW){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_new,parent,false);
+            return new PrdNewViewHolder(view, onItemClickListener);
+
         }
 //        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd, parent, false);
 //        PrdListViewHolder evh = new PrdListViewHolder(view, onItemClickListener);

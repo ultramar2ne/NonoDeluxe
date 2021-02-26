@@ -1,7 +1,6 @@
 package com.example.nonodeluxe.viewholder;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.MyItemView;
 import com.example.nonodeluxe.model.PrdItem;
 
-public class PrdAddViewHolder extends MyItemView {
+public class PrdNewViewHolder extends MyItemView {
 
     public TextView prd_name;
     public TextView category;
@@ -23,10 +22,10 @@ public class PrdAddViewHolder extends MyItemView {
     PrdItem prdItem;
     OnViewHolderItemClickListener onViewHolderItemClickListener;
 
-    public PrdAddViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
+    public PrdNewViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
         super(view);
-        prd_name = view.findViewById(R.id.prdChk_name);
-        category = view.findViewById(R.id.prdChk_category);
+        prd_name = view.findViewById(R.id.prdANew_txt_name);
+//        category = view.findViewById(R.id.prdChk_category);
 //        checkBox = view.findViewById(R.id.prdChk_checkbox);
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +44,6 @@ public class PrdAddViewHolder extends MyItemView {
     public void onBind(MyItem data){
         prdItem = (PrdItem) data;
         prd_name.setText(prdItem.getName());
-        category.setText(prdItem.getCategory());
+//        category.setText(prdItem.getCategory());
     }
 }
