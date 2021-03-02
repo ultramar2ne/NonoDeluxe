@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.nonodeluxe.R;
@@ -29,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class PrdAddFragment extends Fragment {
+public class PrdAddFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     RecyclerView recyclerView_new;
@@ -40,6 +41,7 @@ public class PrdAddFragment extends Fragment {
     ArrayList<PrdItem> addItems = new ArrayList<>();
 
     EditText edt;
+    Button button;
 
 
     public PrdAddFragment() {
@@ -68,8 +70,11 @@ public class PrdAddFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_prd_add, container, false);
         edt = view.findViewById(R.id.dlg_edt_nubmer);
+        button = view.findViewById(R.id.prdAdd_btn_save);
         recyclerView = view.findViewById(R.id.prdAdd_recycler);
         recyclerView_new = view.findViewById(R.id.prdAdd_recycler_new);
+
+        button.setOnClickListener(this);
 
 //        fillData();
         setRecyclerView();
@@ -109,13 +114,13 @@ public class PrdAddFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
-        adapter_new = new PrdListAdapter(PrdCase.NEW,prdItems);
+        adapter_new = new PrdListAdapter(PrdCase.NEW,addItems);
         recyclerView_new.setLayoutManager(layoutManager1);
         recyclerView_new.setAdapter(adapter_new);
 
         adapter.setOnItemClickListener(new PrdListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(final int position) {
                 View dlgView = View.inflate(getActivity(),R.layout.dialog_prd_new,null);
                 AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
                 String currentPrdName = prdItems.get(position).getName();
@@ -124,13 +129,13 @@ public class PrdAddFragment extends Fragment {
                 dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        addItems.add(prdItems.get(1));
+                        addItems.add(prdItems.get(position));
                         adapter_new.notifyDataSetChanged();
+                        recyclerView_new.setVisibility(View.VISIBLE);
 
                     }
                 });
                 dlg.show();
-
 
 
 //                Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
@@ -139,5 +144,12 @@ public class PrdAddFragment extends Fragment {
 //                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == button){
+            recyclerView_new.setVisibility(View.GONE);
+        }
     }
 }

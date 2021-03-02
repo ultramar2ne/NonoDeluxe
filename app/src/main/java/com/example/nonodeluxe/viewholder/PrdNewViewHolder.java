@@ -16,7 +16,7 @@ import com.example.nonodeluxe.model.PrdItem;
 public class PrdNewViewHolder extends MyItemView {
 
     public TextView prd_name;
-    public TextView category;
+    public TextView prd_stock;
 //    public CheckBox checkBox;
 
     PrdItem prdItem;
@@ -25,6 +25,7 @@ public class PrdNewViewHolder extends MyItemView {
     public PrdNewViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
         super(view);
         prd_name = view.findViewById(R.id.prdANew_txt_name);
+        prd_stock = view.findViewById(R.id.prdANew_txt_stock);
 //        category = view.findViewById(R.id.prdChk_category);
 //        checkBox = view.findViewById(R.id.prdChk_checkbox);
 
@@ -44,6 +45,7 @@ public class PrdNewViewHolder extends MyItemView {
     public void onBind(MyItem data){
         prdItem = (PrdItem) data;
         prd_name.setText(prdItem.getName());
+//        prd_stock.setText(prdItem.getStock());
 //        category.setText(prdItem.getCategory());
     }
 }

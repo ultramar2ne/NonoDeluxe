@@ -66,6 +66,9 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (holder instanceof PrdAddViewHolder){
             PrdAddViewHolder viewHolder = (PrdAddViewHolder) holder;
             viewHolder.onBind(prdItems.get(position));
+        } else if (holder instanceof PrdNewViewHolder){
+            PrdNewViewHolder viewHolder = (PrdNewViewHolder)holder;
+            viewHolder.onBind(prdItems.get(position));
         }
 //
 //        PrdItem currentItem = prdItems.get(position);
