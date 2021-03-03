@@ -18,7 +18,7 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:expandedTitleGravity="center"
             app:expandedTitleMarginBottom="60dp"
-            app:contentScrim="@color/colorPrimaryDark">
+            app:contentScrim="@color/colorPrimary">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

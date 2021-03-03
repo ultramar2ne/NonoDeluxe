@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nonodeluxe">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.Camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_start"
@@ -14,6 +17,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".EmpMainActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ScanCodeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

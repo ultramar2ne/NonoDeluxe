@@ -130,9 +130,10 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         addItems.add(prdItems.get(position));
+//                        addItems.get(addItems.size()).setStock(Integer.parseInt(edt.getText().toString()));
+
                         adapter_new.notifyDataSetChanged();
                         recyclerView_new.setVisibility(View.VISIBLE);
-
                     }
                 });
                 dlg.show();

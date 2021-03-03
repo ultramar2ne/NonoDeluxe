@@ -26,8 +26,6 @@ public class PrdNewViewHolder extends MyItemView {
         super(view);
         prd_name = view.findViewById(R.id.prdANew_txt_name);
         prd_stock = view.findViewById(R.id.prdANew_txt_stock);
-//        category = view.findViewById(R.id.prdChk_category);
-//        checkBox = view.findViewById(R.id.prdChk_checkbox);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

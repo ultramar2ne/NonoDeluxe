@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.fragment.PrdAddFragment;
+import com.example.nonodeluxe.fragment.ScanCodeFragment;
 import com.example.nonodeluxe.model.HistoryItem;
 import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.PrdCase;
@@ -29,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PrdListActivity extends AppCompatActivity implements View.OnClickListener {
+public class PrdListActivity extends AppCompatActivity {
 
     private PrdListAdapter adapter;
     private ArrayList<Integer> stockItems = new ArrayList<>();
@@ -41,9 +45,6 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
 
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
-    ImageButton btn_plus;
-
-    private ArrayList<String> nameList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,7 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
 
         toolbar = (Toolbar)findViewById(R.id.prdList_toolbar);
         toolbar.setTitle("제품 목록");
-
-        btn_plus = (ImageButton) findViewById(R.id.prdList_btn_add);
-        btn_plus.setOnClickListener(this);
+        setSupportActionBar(toolbar);
 
         setStockData();
         setPrdData();
@@ -114,9 +113,7 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
 
                     }
                 });
-
     }
-
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PrdListActivity.this);
@@ -140,16 +137,44 @@ public class PrdListActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == btn_plus){         //open prdAdd Activity
-            FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_prdlist_toolbar, menu);
 
-            PrdAddFragment fragment = PrdAddFragment.newInstance(etcItems);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
-            transaction.addToBackStack(null);
-            transaction.add(R.id.prdList_fragment_container, fragment, "HElloWolrD").commit();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+
+        switch (item.getItemId()) {
+            case R.id.toolbar_search:
+                return true;
+            case R.id.toolbar_scanner:
+//                Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
+//                startActivity(intent);
+
+                ScanCodeFragment fragment1 = ScanCodeFragment.newInstance(prdItems);
+                FragmentManager fragmentManager1 = getSupportFragmentManager();
+                FragmentTransaction transaction1 = fragmentManager1.beginTransaction();
+                transaction1.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+                transaction1.addToBackStack(null);
+                transaction1.add(R.id.prdList_fragment_container, fragment1, "HElloWolrD").commit();
+
+                return true;
+            case R.id.toolbar_add:
+                FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
+                PrdAddFragment fragment = PrdAddFragment.newInstance(etcItems);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+                transaction.addToBackStack(null);
+                transaction.add(R.id.prdList_fragment_container, fragment, "HElloWolrD").commit();
+                return true;
+            default:
+                return true;
         }
     }
+
 }

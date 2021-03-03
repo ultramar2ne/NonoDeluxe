@@ -156,9 +156,13 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         HistoryItem newItem = new HistoryItem(getTime,picker.getValue(),stock,type);
-        FirebaseDatabase.getInstance().getReference().
-                child("real").child("history").child("32").child(prd_name)
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("history").child("32").child(prd_name)
                 .child(String.valueOf(historyItems.size())).setValue(newItem);
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("stock").child("32").child(prd_name)
+                .setValue(stock);
 
         historyAdapter.notifyDataSetChanged();
 
