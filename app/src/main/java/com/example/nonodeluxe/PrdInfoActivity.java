@@ -14,6 +14,7 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.HistoryAdapter;
+import com.example.nonodeluxe.fragment.HomeFragment;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.model.HistoryItem;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,8 @@ import java.util.Collections;
 import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
+
+    private int storeCode = HomeFragment.currentStoreCode;
 
     RecyclerView recyclerView;
     HistoryAdapter historyAdapter;
@@ -78,7 +81,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     private void getPrdHistory() {
         FirebaseDatabase.getInstance().getReference()
-                .child("real").child("history").child("32").child(prd_name)
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
                 .orderByKey()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -157,14 +160,22 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
         HistoryItem newItem = new HistoryItem(getTime,picker.getValue(),stock,type);
         FirebaseDatabase.getInstance().getReference()
-                .child("real").child("history").child("32").child(prd_name)
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
                 .child(String.valueOf(historyItems.size())).setValue(newItem);
 
         FirebaseDatabase.getInstance().getReference()
-                .child("real").child("stock").child("32").child(prd_name)
+                .child("real").child("stock").child(String.valueOf(storeCode)).child(prd_name)
                 .setValue(stock);
 
         historyAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

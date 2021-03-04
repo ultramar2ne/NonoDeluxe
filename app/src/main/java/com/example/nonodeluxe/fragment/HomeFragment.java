@@ -38,6 +38,8 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
 
+    public static int currentStoreCode;
+
     TextView storeName;
     TextView empName;
     Button switcher;
@@ -156,6 +158,7 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
             case 3:
                 Intent intent = new Intent(getActivity(), PrdListActivity.class);
                 Preferences.setString(getActivity(),String.valueOf(storeItems.get(stringIndex).getStore_code()),"currentStoreCode");
+                currentStoreCode = storeItems.get(stringIndex).getStore_code();
                 intent.putExtra("hello","hello");
                 startActivity(intent);
                 break;

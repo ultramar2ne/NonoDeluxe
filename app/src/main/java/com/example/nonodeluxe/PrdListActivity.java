@@ -1,6 +1,7 @@
 package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -12,17 +13,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
+import com.example.nonodeluxe.fragment.HomeFragment;
 import com.example.nonodeluxe.fragment.PrdAddFragment;
-import com.example.nonodeluxe.fragment.ScanCodeFragment;
-import com.example.nonodeluxe.model.HistoryItem;
-import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.DataSnapshot;
@@ -35,11 +31,15 @@ import java.util.ArrayList;
 
 public class PrdListActivity extends AppCompatActivity {
 
+    private int REQUEST_CODE = 1;
+
     private PrdListAdapter adapter;
     private ArrayList<Integer> stockItems = new ArrayList<>();
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private ArrayList<PrdItem> etcItems = new ArrayList<>();
+
+    private int storeCode = HomeFragment.currentStoreCode;
 
     DatabaseReference databaseReal = FirebaseDatabase.getInstance().getReference().child("real");
 
@@ -61,10 +61,10 @@ public class PrdListActivity extends AppCompatActivity {
     }
 
     private void setStockData() {
-
         // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
+        stockItems.clear();
         FirebaseDatabase.getInstance().getReference()
-                .child("real").child("stock").child("32")
+                .child("real").child("stock").child(String.valueOf(storeCode))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -83,7 +83,7 @@ public class PrdListActivity extends AppCompatActivity {
     }
 
     private void setPrdData() {
-
+        prdItems.clear();
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("product")
                 .addValueEventListener(new ValueEventListener() {
@@ -127,11 +127,7 @@ public class PrdListActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new PrdListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String currentPrdName = prdItems.get(position).getName();
-                Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
-                intent.putExtra("prd_name",currentPrdName);
-                startActivity(intent);
+                openSelectedItemInfo(position);
             }
         });
     }
@@ -146,26 +142,17 @@ public class PrdListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-
-
         switch (item.getItemId()) {
             case R.id.toolbar_search:
                 return true;
             case R.id.toolbar_scanner:
-//                Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
-//                startActivity(intent);
-
-                ScanCodeFragment fragment1 = ScanCodeFragment.newInstance(prdItems);
-                FragmentManager fragmentManager1 = getSupportFragmentManager();
-                FragmentTransaction transaction1 = fragmentManager1.beginTransaction();
-                transaction1.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
-                transaction1.addToBackStack(null);
-                transaction1.add(R.id.prdList_fragment_container, fragment1, "HElloWolrD").commit();
-
+                Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
+                intent.putExtra("ItemList",prdItems);
+                startActivity(intent);
                 return true;
             case R.id.toolbar_add:
                 FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
-                PrdAddFragment fragment = PrdAddFragment.newInstance(etcItems);
+                PrdAddFragment fragment = PrdAddFragment.newInstance(etcItems,prdItems.size());
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
@@ -177,4 +164,32 @@ public class PrdListActivity extends AppCompatActivity {
         }
     }
 
+    public void openSelectedItemInfo(int position){
+        String currentPrdName = prdItems.get(position).getName();
+        Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+        intent.putExtra("prd_name",currentPrdName);
+        startActivityForResult(intent,REQUEST_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        setStockData();
+//        setPrdData();
+//        setRecyclerView();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(),"이건된다",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@
         android:id="@+id/prdAdd_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:titleTextColor="@color/white"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -25,7 +26,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/prdAdd_recycler_new"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:visibility="gone"/>
 

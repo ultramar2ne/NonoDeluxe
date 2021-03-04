@@ -1,6 +1,7 @@
 package com.example.nonodeluxe;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,12 +23,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, View.OnTouchListener {
     int MY_PERMISSION_REQUEST_CAMERA = 0;
     ZXingScannerView scannerView;
 
+    ArrayList<PrdItem> prdItems;
     PrdItem prdItem;
 
     @Override
@@ -36,64 +41,59 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
 
-//        scannerView.setOnTouchListener(this);
+        prdItems = (ArrayList<PrdItem>) getIntent().getSerializableExtra("ItemList");
+
+        scannerView.setOnTouchListener(this);
     }
 
     @Override
     public void handleResult(Result result) {
-//        MainActivity.txt_view.setText(result.getText());
-//        PrdListActivity.currentPrdName = result.getText();
-        onSearchResult(result);
-//        if () {
-//            Toast.makeText(getApplicationContext(),prdItem.getName(),Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getApplicationContext(),"이건 틀렸오",Toast.LENGTH_SHORT).show();
-//        }
-
-
-        onBackPressed();
+        onCheckList(result);
     }
 
-    private void onSearchResult(Result result) {
+    private void onCheckList(Result result){
 
-        FirebaseDatabase.getInstance().getReference()
-                .child("real").child("product").orderByChild("barcode").equalTo(Integer.parseInt(result.getText()))
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            prdItem = dataSnapshot.getValue(PrdItem.class);
+        String str;
+        int resultBarcode;
+        boolean check = false;
 
-                            String currentPrdName = null;
-                            if (prdItem != null) {
-                                currentPrdName = prdItem.getName();
-                                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
-                                intent.putExtra("prd_name",currentPrdName);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(),"잘못됨",Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-//                            Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
+        try {
+            str = result.getText();
+            resultBarcode = Integer.parseInt(str);
 
-                        }
-                    }
+            for (PrdItem currentItem : prdItems){
+                if (currentItem.getBarcode() == resultBarcode){
+                    check = true;
+                    Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+                    intent.putExtra("prd_name",currentItem.getName());
+                    startActivity(intent);
+                    finish();
+                    break;
+                }
+            }
+            if (!check){
+                showErrorDialog("등록되지 않은 바코드입니다.");
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+        } catch (NumberFormatException e) {
+            showErrorDialog(e.getMessage());
+        } catch (Exception e){
+            showErrorDialog(e.getMessage());
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         scannerView.stopCamera();
-
-
         this.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scannerView.setResultHandler(this);
+        scannerView.startCamera();
     }
 
     @Override
@@ -108,9 +108,23 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
         scannerView.startCamera();
     }
 
-//    @Override
-//    public boolean onTouch(View view, MotionEvent motionEvent) {
-//        scannerView.toggleFlash();
-//        return false;
-//    }
+    private void showErrorDialog(String errorMessage){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Error");
+        dialog.setMessage(errorMessage);
+        dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onResume();
+            }
+        });
+        dialog.show();
+
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        scannerView.toggleFlash();
+        return false;
+    }
 }
