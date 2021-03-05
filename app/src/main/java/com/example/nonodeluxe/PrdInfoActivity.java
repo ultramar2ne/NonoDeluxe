@@ -170,12 +170,4 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         historyAdapter.notifyDataSetChanged();
 
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 }

@@ -63,6 +63,7 @@ public class PrdListActivity extends AppCompatActivity {
     private void setStockData() {
         // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
         stockItems.clear();
+        stockKeys.clear();
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("stock").child(String.valueOf(storeCode))
                 .addValueEventListener(new ValueEventListener() {
@@ -84,6 +85,7 @@ public class PrdListActivity extends AppCompatActivity {
 
     private void setPrdData() {
         prdItems.clear();
+        etcItems.clear();
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("product")
                 .addValueEventListener(new ValueEventListener() {
@@ -169,7 +171,14 @@ public class PrdListActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),currentPrdName,Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
         intent.putExtra("prd_name",currentPrdName);
-        startActivityForResult(intent,REQUEST_CODE);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setStockData();
+        setPrdData();
     }
 
     @Override
@@ -177,19 +186,5 @@ public class PrdListActivity extends AppCompatActivity {
         super.onResume();
 //        setStockData();
 //        setPrdData();
-//        setRecyclerView();
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE){
-            if (resultCode == RESULT_OK){
-                adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(),"이건된다",Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }
