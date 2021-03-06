@@ -6,11 +6,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.HistoryAdapter;
@@ -30,6 +35,11 @@ import java.util.Date;
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
     private int storeCode = HomeFragment.currentStoreCode;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+
+    private Date mDate = new Date(System.currentTimeMillis());
+
+    int mYear, mMonth, mDay;
 
     RecyclerView recyclerView;
     HistoryAdapter historyAdapter;
@@ -37,6 +47,8 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     Button btn_input;
     Button btn_output;
+    ImageButton btn_datePicker;
+    TextView txt_date;
     Toolbar toolbar;
 
     String prd_name;
@@ -52,11 +64,31 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         numberPickerDialog = new NumberPickerDialog();
         numberPickerDialog.setValueChangeListener(this);
 
+        mYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(mDate));
+        mMonth = Integer.parseInt(new SimpleDateFormat("MM").format(mDate)) - 1;
+        mDay = Integer.parseInt(new SimpleDateFormat("dd").format(mDate));
+
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mYear = year;
+                mMonth = month;
+                mDay = day;
+                txt_date.setText(mYear + "/" + (mMonth + 1) + "/" + mDay);
+            }
+        };
+
         toolbar = (Toolbar)findViewById(R.id.prdInfo_toolbar);
+        txt_date = (TextView)findViewById(R.id.info_txt_date);
         btn_input = (Button)findViewById(R.id.info_input_btn);;
         btn_output = (Button)findViewById(R.id.info_output_btn);
+        btn_datePicker = (ImageButton) findViewById(R.id.info_btn_dateChange);
+
         btn_input.setOnClickListener(this);
         btn_output.setOnClickListener(this);
+        btn_datePicker.setOnClickListener(this);
+
+        txt_date.setText(mYear + "/" + (mMonth + 1) + "/" + mDay);
 
         Intent intent = getIntent();
         prd_name = intent.getStringExtra("prd_name");
@@ -128,6 +160,12 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             numberPickerDialog.show(getSupportFragmentManager(),"hello");
         }
 
+        if (view == btn_datePicker){
+
+            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,mMonth,mDay);
+            dialog.show();
+        }
+
     }
 
     @Override
@@ -135,7 +173,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         Toast.makeText(getApplicationContext(),picker.getValue() + "",Toast.LENGTH_SHORT).show();
 
         Date mDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
         String getTime = simpleDateFormat.format(mDate);
 
         int currentStock;
