@@ -9,12 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.model.HistoryItem;
-import com.example.nonodeluxe.model.StoreItem;
 import com.example.nonodeluxe.viewholder.HistoryViewHolder;
-import com.example.nonodeluxe.viewholder.StoreListViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 ;
 
@@ -46,7 +43,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         HistoryItem currentItem = historyItems.get(position);
 
-        holder.history_date.setText(String.valueOf(currentItem.getDate()));
+        String date = String.valueOf(currentItem.getMonth() + "월 " + currentItem.getDay() + "일");
+
+        holder.history_date.setText(date);
         holder.history_changeStock.setText(String.valueOf(currentItem.getChange()));
         holder.history_stock.setText(String.valueOf(currentItem.getStock()));
 

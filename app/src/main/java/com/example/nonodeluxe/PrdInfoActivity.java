@@ -65,7 +65,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         numberPickerDialog.setValueChangeListener(this);
 
         mYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(mDate));
-        mMonth = Integer.parseInt(new SimpleDateFormat("MM").format(mDate)) - 1;
+        mMonth = Integer.parseInt(new SimpleDateFormat("MM").format(mDate));
         mDay = Integer.parseInt(new SimpleDateFormat("dd").format(mDate));
 
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -88,7 +88,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         btn_output.setOnClickListener(this);
         btn_datePicker.setOnClickListener(this);
 
-        txt_date.setText(mYear + "/" + (mMonth + 1) + "/" + mDay);
+        txt_date.setText(mYear + "/" + mMonth + "/" + mDay);
 
         Intent intent = getIntent();
         prd_name = intent.getStringExtra("prd_name");
@@ -162,7 +162,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
         if (view == btn_datePicker){
 
-            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,mMonth,mDay);
+            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,mMonth-1,mDay);
             dialog.show();
         }
 
@@ -171,10 +171,6 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         Toast.makeText(getApplicationContext(),picker.getValue() + "",Toast.LENGTH_SHORT).show();
-
-        Date mDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
-        String getTime = simpleDateFormat.format(mDate);
 
         int currentStock;
         int stock = 0;
@@ -196,7 +192,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        HistoryItem newItem = new HistoryItem(getTime,picker.getValue(),stock,type);
+        HistoryItem newItem = new HistoryItem(mYear,mMonth,mDay,picker.getValue(),stock,type);
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
                 .child(String.valueOf(historyItems.size())).setValue(newItem);
@@ -206,6 +202,5 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
                 .setValue(stock);
 
         historyAdapter.notifyDataSetChanged();
-
     }
 }

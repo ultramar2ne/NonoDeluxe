@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
 
                                 empItem = snapshot.child(input_id).getValue(EmpItem.class);
-                                Toast.makeText(getApplicationContext(),empItem.getName(),Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(),empItem.getName(),Toast.LENGTH_SHORT).show();
 
                                 Preferences.setString(LoginActivity.this,"id",input_id);
                                 Preferences.setString(LoginActivity.this,"pw",input_pw);

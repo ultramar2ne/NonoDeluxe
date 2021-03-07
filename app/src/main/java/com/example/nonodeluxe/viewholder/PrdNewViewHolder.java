@@ -43,7 +43,7 @@ public class PrdNewViewHolder extends MyItemView {
     public void onBind(MyItem data){
         prdItem = (PrdItem) data;
         prd_name.setText(prdItem.getName());
-        prd_stock.setText(String.valueOf(prdItem.getStock()));
+//        prd_stock.setText(String.valueOf(prdItem.getStock()));
 //        category.setText(prdItem.getCategory());
     }
 }

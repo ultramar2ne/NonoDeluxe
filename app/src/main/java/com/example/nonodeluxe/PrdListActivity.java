@@ -8,11 +8,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -29,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PrdListActivity extends AppCompatActivity {
+public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private int REQUEST_CODE = 1;
 
@@ -41,10 +43,9 @@ public class PrdListActivity extends AppCompatActivity {
 
     private int storeCode = HomeFragment.currentStoreCode;
 
-    DatabaseReference databaseReal = FirebaseDatabase.getInstance().getReference().child("real");
-
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,9 @@ public class PrdListActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.prdList_toolbar);
         toolbar.setTitle("제품 목록");
         setSupportActionBar(toolbar);
+
+        refreshLayout = (SwipeRefreshLayout)findViewById(R.id.prdList_refresh);
+        refreshLayout.setOnRefreshListener(this);
 
         setStockData();
         setPrdData();
@@ -182,9 +186,9 @@ public class PrdListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        setStockData();
-//        setPrdData();
+    public void onRefresh() {
+        setStockData();
+        setPrdData();
+        refreshLayout.setRefreshing(false);
     }
 }

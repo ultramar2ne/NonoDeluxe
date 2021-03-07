@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
                                 storeItems.add(storeItem);
                                 strings.add(storeItem.getStore_name());
                             }
-                            Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
                             storeName.setText(strings.get(0));
                         }
                         @Override

@@ -20,12 +20,19 @@ import java.util.ArrayList;
 public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
+    private Boolean[] prdChecked;
 
     private PrdCase sel_type;
 
     public PrdListAdapter(PrdCase sel_type, ArrayList<PrdItem> prdItems) {
         this.sel_type = sel_type;
         this.prdItems = prdItems;
+    }
+
+    public PrdListAdapter(PrdCase sel_type, ArrayList<PrdItem> prdItems, Boolean[] prdChecked) {
+        this.sel_type = sel_type;
+        this.prdItems = prdItems;
+        this.prdChecked = prdChecked;
     }
 
     public interface OnItemClickListener {
@@ -65,7 +72,7 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
             viewHolder.onBind(prdItems.get(position));
         } else if (holder instanceof PrdAddViewHolder){
             PrdAddViewHolder viewHolder = (PrdAddViewHolder) holder;
-            viewHolder.onBind(prdItems.get(position));
+            viewHolder.onBind(prdItems.get(position),prdChecked[position]);
         } else if (holder instanceof PrdNewViewHolder){
             PrdNewViewHolder viewHolder = (PrdNewViewHolder)holder;
             viewHolder.onBind(prdItems.get(position));

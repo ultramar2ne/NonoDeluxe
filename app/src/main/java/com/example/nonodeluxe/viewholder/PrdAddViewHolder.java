@@ -18,7 +18,7 @@ public class PrdAddViewHolder extends MyItemView {
 
     public TextView prd_name;
     public TextView category;
-//    public CheckBox checkBox;
+    public CheckBox checkBox;
 
     PrdItem prdItem;
     OnViewHolderItemClickListener onViewHolderItemClickListener;
@@ -27,7 +27,7 @@ public class PrdAddViewHolder extends MyItemView {
         super(view);
         prd_name = view.findViewById(R.id.prdChk_name);
         category = view.findViewById(R.id.prdChk_category);
-//        checkBox = view.findViewById(R.id.prdChk_checkbox);
+        checkBox = view.findViewById(R.id.prdChk_checkbox);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +42,14 @@ public class PrdAddViewHolder extends MyItemView {
         });
     }
 
-    public void onBind(MyItem data){
+    public void onBind(MyItem data, Boolean checked){
         prdItem = (PrdItem) data;
         prd_name.setText(prdItem.getName());
         category.setText(prdItem.getCategory());
+        if (checked == null){
+            checkBox.setChecked(false);
+        } else {
+            checkBox.setChecked(checked);
+        }
     }
 }
