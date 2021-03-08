@@ -35,9 +35,10 @@
 
     <TextView
         android:id="@+id/prd_stock"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:text="stock"
+        android:text="999"
+        android:gravity="left|center"
         android:textSize="20sp"
         android:fontFamily="@font/jsdongkang"
         app:layout_constraintTop_toTopOf="parent"

@@ -31,8 +31,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-
-
     <FrameLayout
         android:id="@+id/prdList_fragment_container"
         android:layout_width="match_parent"

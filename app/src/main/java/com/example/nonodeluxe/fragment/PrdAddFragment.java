@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.R;
@@ -40,10 +41,11 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
     ArrayList<PrdItem> prdItems = new ArrayList<>();
     ArrayList<PrdItem> addItems = new ArrayList<>();
     Boolean[] checked;
+//    int[] checked_add;
     int existItem;
 
     EditText edt;
-    Button button;
+    ImageButton button;
     Toolbar toolbar;
 
 
@@ -67,6 +69,7 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
             prdItems = (ArrayList<PrdItem>) getArguments().getSerializable("ETC");
             existItem = getArguments().getInt("EXIST");
             checked = new Boolean[prdItems.size()];
+//            checked_add = new int[prdItems.size()];
         }
     }
 
@@ -82,8 +85,8 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
         toolbar = view.findViewById(R.id.prdAdd_toolbar);
         toolbar.setTitle("제품 추가");
 
-
         button.setOnClickListener(this);
+        button.setVisibility(View.GONE);
 
         setRecyclerView();
 
@@ -114,6 +117,7 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
                 adapter_showAdd.notifyDataSetChanged();
                 recycelrview_showAdd.setVisibility(View.VISIBLE);
                 recycelrview_showAdd.scrollToPosition(adapter_showAdd.getItemCount() - 1);
+                saveButtonCheck();
 
 
 //
@@ -180,11 +184,20 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
 
         addItems.remove(position);
         adapter_showAdd.notifyDataSetChanged();
+        saveButtonCheck();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    public void saveButtonCheck(){
+        if (addItems.size() == 0){
+            button.setVisibility(View.GONE);
+        } else {
+            button.setVisibility(View.VISIBLE);
+        }
     }
 
 

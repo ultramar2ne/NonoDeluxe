@@ -72,9 +72,9 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 mYear = year;
-                mMonth = month;
+                mMonth = month+1;
                 mDay = day;
-                txt_date.setText(mYear + "/" + (mMonth + 1) + "/" + mDay);
+                txt_date.setText(mYear + "/" + mMonth + "/" + mDay);
             }
         };
 
@@ -162,7 +162,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
         if (view == btn_datePicker){
 
-            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,mMonth-1,mDay);
+            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,(mMonth - 1),mDay);
             dialog.show();
         }
 

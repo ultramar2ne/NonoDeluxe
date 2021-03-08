@@ -1,5 +1,6 @@
 package com.example.nonodeluxe.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
         holder.history_stock.setText(String.valueOf(currentItem.getStock()));
 
         if (currentItem.getType() == 1){
+            holder.history_type.setTextColor(Color.rgb(0,160,0));
             holder.history_type.setText("입고");
         } else {
+            holder.history_type.setTextColor(Color.rgb(200,0,0));
             holder.history_type.setText("출고");
         }
 
