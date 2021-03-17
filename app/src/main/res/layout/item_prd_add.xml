@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="70dp">
 
+<!--    category-->
     <TextView
         android:id="@+id/prdChk_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="category"
         android:textSize="15sp"
         android:fontFamily="@font/jsdongkang"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,11 +19,11 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintVertical_bias="1"/>
 
+<!--    prd_name-->
     <TextView
         android:id="@+id/prdChk_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="prd_name"
         android:textSize="20sp"
         android:textStyle="bold"
         android:fontFamily="@font/jsdongkang"
@@ -33,6 +33,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.05"/>
 
+<!--    checkbox-->
     <CheckBox
         android:id="@+id/prdChk_checkbox"
         android:layout_width="50dp"

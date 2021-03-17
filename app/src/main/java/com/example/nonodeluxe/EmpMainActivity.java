@@ -2,7 +2,6 @@ package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,8 +10,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nonodeluxe.adapter.StoreAdapter;
-import com.example.nonodeluxe.fragment.HomeFragment;
+import com.example.nonodeluxe.adapter.StoreListAdapter;
 import com.example.nonodeluxe.model.EmpItem;
 import com.example.nonodeluxe.model.StoreItem;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +22,7 @@ import java.util.ArrayList;
 
 public class EmpMainActivity extends AppCompatActivity {
 
-    private StoreAdapter adapter;
+    private StoreListAdapter adapter;
 
     private TextView unit_name, emp_name;
     private ArrayList<StoreItem> storeItems = new ArrayList<>();
@@ -92,14 +90,14 @@ public class EmpMainActivity extends AppCompatActivity {
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(EmpMainActivity.this);
-        adapter = new StoreAdapter(storeItems);
+        adapter = new StoreListAdapter(storeItems);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_main);
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new StoreAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new StoreListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 String sum = storeItems.get(position).getStore_name();

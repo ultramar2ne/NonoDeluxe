@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
+import com.example.nonodeluxe.model.MainMenuItem;
+import com.example.nonodeluxe.model.MyItem;
+import com.example.nonodeluxe.model.StoreItem;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView imageView;
     public TextView textView;
 
+    private MainMenuItem mainMenuItem;
 
     public MenuViewHolder(@NonNull View view, final MainMenuAdapter.OnItemClickListener onItemClickListener) {
         super(view);
@@ -32,5 +36,11 @@ public class MenuViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+    }
+
+    public void onBind(MyItem data){
+        mainMenuItem = (MainMenuItem)data;
+        imageView.setImageResource(mainMenuItem.getImageResource());
+        textView.setText(mainMenuItem.getText());
     }
 }

@@ -56,7 +56,7 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add,parent,false);
             return new PrdAddViewHolder(view, onItemClickListener);
         } else if (sel_type == PrdCase.NEW){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_new,parent,false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add_selected,parent,false);
             return new PrdNewViewHolder(view, onItemClickListener);
 
         }

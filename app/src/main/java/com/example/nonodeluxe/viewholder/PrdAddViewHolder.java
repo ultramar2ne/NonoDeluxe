@@ -7,7 +7,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nonodeluxe.OnViewHolderItemClickListener;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.model.MyItem;
@@ -20,8 +19,7 @@ public class PrdAddViewHolder extends MyItemView {
     public TextView category;
     public CheckBox checkBox;
 
-    PrdItem prdItem;
-    OnViewHolderItemClickListener onViewHolderItemClickListener;
+    private PrdItem prdItem;
 
     public PrdAddViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
         super(view);

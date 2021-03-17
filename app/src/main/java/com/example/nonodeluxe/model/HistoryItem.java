@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class HistoryItem {
+public class HistoryItem extends MyItem{
     private int year;
     private int month;
     private int day;

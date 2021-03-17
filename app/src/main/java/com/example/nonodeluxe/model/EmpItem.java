@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class EmpItem {
+public class EmpItem extends MyItem{
     private String name;
     private String id;
     private String pw;

@@ -7,14 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.adapter.StoreAdapter;
+import com.example.nonodeluxe.adapter.StoreListAdapter;
+import com.example.nonodeluxe.model.MyItem;
+import com.example.nonodeluxe.model.StoreItem;
 
 public class StoreListViewHolder extends RecyclerView.ViewHolder {
 
     public TextView store_code;
     public TextView store_name;
 
-    public StoreListViewHolder(@NonNull final View view, final StoreAdapter.OnItemClickListener listener) {
+    private StoreItem storeItem;
+
+    public StoreListViewHolder(@NonNull final View view, final StoreListAdapter.OnItemClickListener listener) {
         super(view);
         store_code = view.findViewById(R.id.item_storeCode);
         store_name = view.findViewById(R.id.item_storeName);
@@ -30,5 +34,11 @@ public class StoreListViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+    }
+
+    public void onBind(MyItem data){
+        storeItem = (StoreItem) data;
+        store_name.setText(storeItem.getStore_name());
+        store_code.setText(storeItem.getStore_code() + "호점");
     }
 }

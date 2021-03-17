@@ -1,15 +1,18 @@
 package com.example.nonodeluxe.adapter;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.model.MainMenuItem;
 import com.example.nonodeluxe.viewholder.MenuViewHolder;
+import com.example.nonodeluxe.viewholder.PrdListViewHolder;
 
 import java.util.ArrayList;
 
@@ -40,10 +43,8 @@ public class MainMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
-        MainMenuItem currentItem = menuItems.get(position);
-
-        holder.imageView.setImageResource(currentItem.getImageResource());
-        holder.textView.setText(currentItem.getText());
+        MenuViewHolder viewHolder = (MenuViewHolder)holder;
+        viewHolder.onBind(menuItems.get(position));
     }
 
     @Override
