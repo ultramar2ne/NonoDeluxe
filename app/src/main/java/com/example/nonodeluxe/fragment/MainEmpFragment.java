@@ -1,10 +1,10 @@
 package com.example.nonodeluxe.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextSwitcher;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
-import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.PrdListActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
@@ -33,16 +32,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClickListener, View.OnClickListener{
+public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
+    ArrayAdapter<String> arrayAdapter;
 
     public static int currentStoreCode;
 
-    TextView storeName;
     TextView empName;
-    Button switcher;
+    Spinner spinner;
+    Toolbar toolbar;
 
     private ArrayList<MainMenuItem> menuItems;
     private ArrayList<StoreItem> storeItems;
@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     int stringIndex = 0;
     String inputData;
 
-    public HomeFragment() {
+    public MainEmpFragment() {
     }
 
     @Override
@@ -65,27 +65,21 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_emp, container, false);
 
         fillStoreList();
         fillExampleList();
 
-        storeName = view.findViewById(R.id.home_storeName);
+        toolbar = view.findViewById(R.id.main_emp_toolbar);
         empName = view.findViewById(R.id.main_empName);
+        spinner = view.findViewById(R.id.spinner);
+
+        arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.style_spinner,strings);
+        spinner.setAdapter(arrayAdapter);
+
+        toolbar.setTitle(Preferences.getString(getActivity(),"unitName"));
         empName.setText("담당자: " +  Preferences.getString(getActivity(),"id"));
-//        storeName.setFactory(new ViewSwitcher.ViewFactory() {
-//            @Override
-//            public View makeView() {
-//                TextView textView = new TextView(getContext());
-////                textView.setAutoSizeTextTypeUniformWithConfiguration(20,50,TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM,1);
-//                textView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-//                textView.setTextSize(0x32);
-//                textView.setTextColor(Color.rgb(41,41,41));
-//                return textView;
-//            }
-//        });
-        switcher = view.findViewById(R.id.textSwitcher);
-        switcher.setOnClickListener(this);
+
 
         recyclerView = view.findViewById(R.id.recycler_home);
         recyclerView.setHasFixedSize(true);
@@ -97,8 +91,6 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mainMenuAdapter);
 
-
-
         return view;
     }
 
@@ -107,33 +99,25 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
         strings = new ArrayList<>();
         int unitCode = Preferences.getInt(getActivity(),"unitCode");
 
-        if (unitCode == 5000){
-//            Intent intent = getActivity().getParentActivityIntent();
-////            String store_name = intent.getStringExtra("store_name");
-//            storeName.setText(inputData);
-//            switcher.setOnClickListener(null);
-        } else {
-            FirebaseDatabase.getInstance().getReference()
-                    .child("info").child("store").orderByChild("unit_code").equalTo(unitCode).
-                    addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            storeItems.clear();
-                            for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                                String key = currentSnapshot.getKey();
-                                StoreItem storeItem = currentSnapshot.getValue(StoreItem.class);
-                                storeItems.add(storeItem);
-                                strings.add(storeItem.getStore_name());
-                            }
-//                            Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
-                            storeName.setText(strings.get(0));
+        FirebaseDatabase.getInstance().getReference()
+                .child("info").child("store").orderByChild("unit_code").equalTo(unitCode).
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        storeItems.clear();
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                            String key = currentSnapshot.getKey();
+                            StoreItem storeItem = currentSnapshot.getValue(StoreItem.class);
+                            storeItems.add(storeItem);
+                            strings.add(storeItem.getStore_name());
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void fillExampleList() {
@@ -143,7 +127,6 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
         menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
-//        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"hello"));
     }
 
     @Override
@@ -157,23 +140,11 @@ public class HomeFragment extends Fragment implements MainMenuAdapter.OnItemClic
                 break;
             case 3:
                 Intent intent = new Intent(getActivity(), PrdListActivity.class);
-                Preferences.setString(getActivity(),String.valueOf(storeItems.get(stringIndex).getStore_code()),"currentStoreCode");
+                Preferences.setString(getActivity(),String.valueOf(storeItems.get(spinner.getScrollX()).getStore_code()),"currentStoreCode");
                 currentStoreCode = storeItems.get(stringIndex).getStore_code();
                 intent.putExtra("hello","hello");
                 startActivity(intent);
                 break;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == switcher){
-            if (stringIndex == strings.size() - 1){
-                stringIndex = 0;
-                storeName.setText(strings.get(stringIndex));
-            } else {
-                storeName.setText(strings.get(++stringIndex));
-            }
         }
     }
 }

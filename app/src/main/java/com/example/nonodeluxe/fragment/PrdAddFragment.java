@@ -1,7 +1,5 @@
 package com.example.nonodeluxe.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
@@ -31,7 +27,7 @@ import java.util.HashMap;
 
 public class PrdAddFragment extends Fragment implements View.OnClickListener, PrdListAdapter.OnItemClickListener {
 
-    private int storeCode = HomeFragment.currentStoreCode;
+    private int storeCode = MainEmpFragment.currentStoreCode;
 
     RecyclerView recyclerView;
     RecyclerView recycelrview_showAdd;

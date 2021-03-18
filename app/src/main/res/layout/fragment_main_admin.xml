@@ -5,63 +5,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent"
     tools:context=".EmpMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:id="@+id/appBarLayout">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="230dp"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:expandedTitleGravity="left|bottom"
-            app:contentScrim="@color/colorPrimary">
+            app:expandedTitleGravity="center"
+            app:contentScrim="@color/transparent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/home_storeName"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:fontFamily="@font/jsdongkang"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMaxTextSize="50sp"
-                    android:autoSizeMinTextSize="25sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
-                <Button
-                    android:id="@+id/textSwitcher"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="1"/>
-
-                <TextView
-                    android:id="@+id/main_empName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:fontFamily="@font/jsdongkang"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:textColor="@color/black"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_storeName"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_admin_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fontFamily="@font/jsdongkang"
@@ -77,6 +45,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         android:padding="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -85,22 +54,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <Button-->
-<!--                android:id="@+id/textSwitcher"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="60dp"/>-->
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_home"
+                android:id="@+id/main_admin_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         </LinearLayout>
 
-
-
     </androidx.core.widget.NestedScrollView>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

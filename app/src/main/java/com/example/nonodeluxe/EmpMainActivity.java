@@ -32,7 +32,7 @@ public class EmpMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_emp_main);
+        setContentView(R.layout.activity_main_emp);
 
         unit_name = (TextView)findViewById(R.id.home_storeName);
         emp_name = (TextView)findViewById(R.id.main_empName);

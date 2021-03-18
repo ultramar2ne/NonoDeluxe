@@ -3,6 +3,7 @@
     package="com.example.nonodeluxe">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.Camera.autofocus" />
 
     <application
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrdInfoActivity"/>
+        <activity android:name=".StockChangeActivity"></activity>
+        <activity android:name=".PrdInfoActivity" />
         <activity android:name=".PrdListActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".EmpMainActivity" />

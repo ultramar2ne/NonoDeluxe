@@ -3,24 +3,21 @@ package com.example.nonodeluxe;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.nonodeluxe.fragment.CalendarFragment;
-import com.example.nonodeluxe.fragment.HomeFragment;
+import com.example.nonodeluxe.fragment.MainEmpFragment;
+import com.example.nonodeluxe.fragment.MainAdminFragment;
 import com.example.nonodeluxe.fragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
-    Button btn_prdList;
+    Fragment HomeFragment ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +27,26 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        switch (Preferences.getString(this,"grade")){
+            case "admin":
+                HomeFragment = new MainAdminFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MainAdminFragment()).commit();
+                break;
+            case "emp":
+                HomeFragment = new MainEmpFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MainEmpFragment()).commit();
+                break;
+            case "partic":
+                HomeFragment = new MainEmpFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new MainEmpFragment()).commit();
+                bottomNavigationView.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -43,12 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
-
+                            selectedFragment = HomeFragment;
                             break;
+
                         case R.id.nav_calendar:
                             selectedFragment = new CalendarFragment();
                             break;
+
                         case R.id.nav_menu:
                             selectedFragment = new SettingFragment();
                             break;

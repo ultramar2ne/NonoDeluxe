@@ -21,12 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edt_id, edt_pw;
-    Button btn_login;
-
-    EmpItem empItem;
+    private Button btn_login;
+    private EmpItem empItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,50 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         edt_pw = (EditText)findViewById(R.id.login_edt_pw);
         btn_login = (Button)findViewById(R.id.login_btn_login);
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("info").child("employee").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String input_id = edt_id.getText().toString();
-                        String input_pw = edt_pw.getText().toString();
-
-                        if (snapshot.child(input_id).exists()){
-                            if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
-
-                                empItem = snapshot.child(input_id).getValue(EmpItem.class);
-//                                Toast.makeText(getApplicationContext(),empItem.getName(),Toast.LENGTH_SHORT).show();
-
-                                Preferences.setString(LoginActivity.this,"id",input_id);
-                                Preferences.setString(LoginActivity.this,"pw",input_pw);
-                                Preferences.setInt(LoginActivity.this,"unitCode",empItem.getUnit_code());
-
-                                if (empItem.getUnit_code() == 5000){
-                                    startActivity(new Intent(getApplicationContext(),EmpMainActivity.class));
-                                } else if (empItem.getUnit_code() > 5000) {
-                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                                } else {
-                                    // for store
-                                }
-
-                            } else {
-                                Toast.makeText(getApplicationContext(),"비밀번호틀림",Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(),"없는아이디",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-
-            }
-        });
+        btn_login.setOnClickListener(this);
     }
-
 
     protected void onStart() {
         super.onStart();
@@ -94,5 +51,48 @@ public class LoginActivity extends AppCompatActivity {
 //                startActivity(new Intent(getApplicationContext(),ExEmpMainActivity.class));
 //            }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == btn_login){
+            FirebaseDatabase.getInstance().getReference()
+                    .child("info").child("employee")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String input_id = edt_id.getText().toString();
+                            String input_pw = edt_pw.getText().toString();
+
+                            //nullpointerException
+
+                            if (snapshot.child(input_id).exists()){
+                                if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
+
+                                    empItem = snapshot.child(input_id).getValue(EmpItem.class);
+                                    String grade = empItem.getEmp_grade();
+
+                                    Preferences.setString(LoginActivity.this,"id",input_id);
+                                    Preferences.setString(LoginActivity.this,"pw",input_pw);
+                                    Preferences.setInt(LoginActivity.this,"unitCode",empItem.getUnit_code());
+                                    Preferences.setString(LoginActivity.this,"unitName",empItem.getUnit_name());
+                                    Preferences.setString(LoginActivity.this,"grade",grade);
+
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(),"비밀번호가 맞지 않습니다.",Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),"아이디를 확인해 주세요.",Toast.LENGTH_SHORT).show();
+                            }
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
     }
 }

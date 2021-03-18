@@ -1,7 +1,6 @@
 package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -14,18 +13,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.fragment.HomeFragment;
+import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.PrdAddFragment;
 import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -41,7 +38,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private ArrayList<PrdItem> etcItems = new ArrayList<>();
 
-    private int storeCode = HomeFragment.currentStoreCode;
+    private int storeCode = MainEmpFragment.currentStoreCode;
 
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.HistoryAdapter;
-import com.example.nonodeluxe.fragment.HomeFragment;
+import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.model.HistoryItem;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
-    private int storeCode = HomeFragment.currentStoreCode;
+    private int storeCode = MainEmpFragment.currentStoreCode;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private Date mDate = new Date(System.currentTimeMillis());
