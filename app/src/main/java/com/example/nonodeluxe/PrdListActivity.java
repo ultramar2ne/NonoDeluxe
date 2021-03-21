@@ -75,6 +75,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
                             stockItems.add(currentSnapshot.getValue(Integer.class));
                             stockKeys.add(currentkey);
                         }
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override

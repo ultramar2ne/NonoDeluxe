@@ -70,13 +70,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if (snapshot.child(input_id).child("pw").getValue(String.class).equals(input_pw)){
 
                                     empItem = snapshot.child(input_id).getValue(EmpItem.class);
-                                    String grade = empItem.getEmp_grade();
 
                                     Preferences.setString(LoginActivity.this,"id",input_id);
                                     Preferences.setString(LoginActivity.this,"pw",input_pw);
                                     Preferences.setInt(LoginActivity.this,"unitCode",empItem.getUnit_code());
                                     Preferences.setString(LoginActivity.this,"unitName",empItem.getUnit_name());
-                                    Preferences.setString(LoginActivity.this,"grade",grade);
+                                    Preferences.setString(LoginActivity.this,"grade",empItem.getEmp_grade());
 
 
                                 } else {

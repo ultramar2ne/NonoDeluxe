@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -32,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemClickListener {
+public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
@@ -76,6 +77,8 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
 
         arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.style_spinner,strings);
         spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(this);
+        currentStoreCode = 0;
 
         toolbar.setTitle(Preferences.getString(getActivity(),"unitName"));
         empName.setText("담당자: " +  Preferences.getString(getActivity(),"id"));
@@ -140,11 +143,20 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
                 break;
             case 3:
                 Intent intent = new Intent(getActivity(), PrdListActivity.class);
-                Preferences.setString(getActivity(),String.valueOf(storeItems.get(spinner.getScrollX()).getStore_code()),"currentStoreCode");
-                currentStoreCode = storeItems.get(stringIndex).getStore_code();
-                intent.putExtra("hello","hello");
+//                intent.putExtra("hello","hello");
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        currentStoreCode = storeItems.get(position).getStore_code();
+//        Toast.makeText(getActivity(),storeItems.get(position).getStore_name(),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
