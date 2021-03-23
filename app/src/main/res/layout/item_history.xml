@@ -6,6 +6,7 @@
     android:paddingRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<!--    Date of modification-->
     <TextView
         android:id="@+id/history_date"
         android:layout_width="0dp"
@@ -19,11 +20,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/history_txt_change"/>
 
+<!--    will change type-->
     <TextView
         android:id="@+id/history_txt_change"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="입고"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,23 +32,23 @@
         app:layout_constraintLeft_toRightOf="@id/history_date"
         app:layout_constraintRight_toLeftOf="@id/history_change"/>
 
+<!--    stock of modification-->
     <TextView
         android:id="@+id/history_change"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:text="1111"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/hitory_txt_stock"
         app:layout_constraintLeft_toRightOf="@id/history_txt_change"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginEnd="10dp"/>
 
     <TextView
         android:id="@+id/hitory_txt_stock"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="재고"
+        android:text="@string/txt_stock"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,11 +56,11 @@
         app:layout_constraintRight_toLeftOf="@id/history_stock"
         app:layout_constraintLeft_toRightOf="@id/history_change"/>
 
+<!--    current stock-->
     <TextView
         android:id="@+id/history_stock"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:text="2222"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class EmpItem {
+public class EmpItem extends MyItem{
     private String name;
     private String id;
     private String pw;
@@ -8,9 +8,21 @@ public class EmpItem {
     private int emp_code;
     private int unit_code;
     private String emp_grade;
+    private String unit_name;
 
     public EmpItem(){
 
+    }
+
+    public EmpItem(String name, String id, String pw, int tel_num, int emp_code, int unit_code, String emp_grade, String unit_name) {
+        this.name = name;
+        this.id = id;
+        this.pw = pw;
+        this.tel_num = tel_num;
+        this.emp_code = emp_code;
+        this.unit_code = unit_code;
+        this.emp_grade = emp_grade;
+        this.unit_name = unit_name;
     }
 
     public EmpItem(String name, String pw, int tel_num, int emp_code, int unit_code){
@@ -19,6 +31,18 @@ public class EmpItem {
         this.tel_num = tel_num;
         this.emp_code = emp_code;
         this.unit_code = unit_code;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEmp_grade() {
+        return emp_grade;
+    }
+
+    public String getUnit_name() {
+        return unit_name;
     }
 
     public String getName() {
@@ -59,5 +83,17 @@ public class EmpItem {
 
     public void setUnit_code(int unit_code) {
         this.unit_code = unit_code;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEmp_grade(String emp_grade) {
+        this.emp_grade = emp_grade;
+    }
+
+    public void setUnit_name(String unit_name) {
+        this.unit_name = unit_name;
     }
 }

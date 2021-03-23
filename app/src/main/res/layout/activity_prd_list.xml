@@ -8,18 +8,33 @@
     tools:context=".PrdListActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/prdlist_toolbar"
+        android:id="@+id/prdList_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/prdlist_recyclerview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/prdList_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prdlist_toolbar"
-        app:layout_constraintVertical_weight="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/prdList_toolbar"
+        app:layout_constraintVertical_weight="1.0" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/prdList_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <FrameLayout
+        android:id="@+id/prdList_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

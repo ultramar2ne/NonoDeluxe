@@ -1,5 +1,6 @@
 package com.example.nonodeluxe.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.model.HistoryItem;
-import com.example.nonodeluxe.model.StoreItem;
 import com.example.nonodeluxe.viewholder.HistoryViewHolder;
-import com.example.nonodeluxe.viewholder.StoreListViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 ;
 
@@ -44,19 +42,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
-        HistoryItem currentItem = historyItems.get(position);
-
-        holder.history_date.setText(String.valueOf(currentItem.getDate()));
-        holder.history_changeStock.setText(String.valueOf(currentItem.getChange()));
-        holder.history_stock.setText(String.valueOf(currentItem.getStock()));
-
-        if (currentItem.getType() == 1){
-            holder.history_type.setText("입고");
-        } else {
-            holder.history_type.setText("출고");
-        }
-
-        //블라블라
+        HistoryViewHolder viewHolder = (HistoryViewHolder)holder;
+        viewHolder.onBind(historyItems.get(position));
     }
 
     @Override

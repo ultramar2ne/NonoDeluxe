@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_bck_21"
+        android:src="@drawable/ic_bck_24"
         android:scaleType="centerCrop"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +95,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintVertical_bias="0.7"/>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

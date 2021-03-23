@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class MainMenuItem {
+public class MainMenuItem extends MyItem{
     private int imageResource;
     private String text;
 

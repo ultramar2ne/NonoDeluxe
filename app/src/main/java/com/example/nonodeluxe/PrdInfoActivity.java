@@ -6,14 +6,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.HistoryAdapter;
+import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.model.HistoryItem;
 import com.google.firebase.database.DataSnapshot;
@@ -23,10 +28,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
+
+    private int storeCode = MainEmpFragment.currentStoreCode;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+
+    private Date mDate = new Date(System.currentTimeMillis());
+
+    int mYear, mMonth, mDay;
 
     RecyclerView recyclerView;
     HistoryAdapter historyAdapter;
@@ -34,6 +45,8 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     Button btn_input;
     Button btn_output;
+    ImageButton btn_datePicker;
+    TextView txt_date;
     Toolbar toolbar;
 
     String prd_name;
@@ -49,11 +62,31 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         numberPickerDialog = new NumberPickerDialog();
         numberPickerDialog.setValueChangeListener(this);
 
+        mYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(mDate));
+        mMonth = Integer.parseInt(new SimpleDateFormat("MM").format(mDate));
+        mDay = Integer.parseInt(new SimpleDateFormat("dd").format(mDate));
+
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                mYear = year;
+                mMonth = month+1;
+                mDay = day;
+                txt_date.setText(mYear + "/" + mMonth + "/" + mDay);
+            }
+        };
+
         toolbar = (Toolbar)findViewById(R.id.prdInfo_toolbar);
+        txt_date = (TextView)findViewById(R.id.info_txt_date);
         btn_input = (Button)findViewById(R.id.info_input_btn);;
         btn_output = (Button)findViewById(R.id.info_output_btn);
+        btn_datePicker = (ImageButton) findViewById(R.id.info_btn_dateChange);
+
         btn_input.setOnClickListener(this);
         btn_output.setOnClickListener(this);
+        btn_datePicker.setOnClickListener(this);
+
+        txt_date.setText(mYear + "/" + mMonth + "/" + mDay);
 
         Intent intent = getIntent();
         prd_name = intent.getStringExtra("prd_name");
@@ -78,7 +111,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
 
     private void getPrdHistory() {
         FirebaseDatabase.getInstance().getReference()
-                .child("real").child("history").child("32").child(prd_name)
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
                 .orderByKey()
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -125,15 +158,17 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             numberPickerDialog.show(getSupportFragmentManager(),"hello");
         }
 
+        if (view == btn_datePicker){
+
+            DatePickerDialog dialog = new DatePickerDialog(this,onDateSetListener,mYear,(mMonth - 1),mDay);
+            dialog.show();
+        }
+
     }
 
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         Toast.makeText(getApplicationContext(),picker.getValue() + "",Toast.LENGTH_SHORT).show();
-
-        Date mDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        String getTime = simpleDateFormat.format(mDate);
 
         int currentStock;
         int stock = 0;
@@ -155,12 +190,15 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        HistoryItem newItem = new HistoryItem(getTime,picker.getValue(),stock,type);
-        FirebaseDatabase.getInstance().getReference().
-                child("real").child("history").child("32").child(prd_name)
+        HistoryItem newItem = new HistoryItem(mYear,mMonth,mDay,picker.getValue(),stock,type);
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
                 .child(String.valueOf(historyItems.size())).setValue(newItem);
 
-        historyAdapter.notifyDataSetChanged();
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("stock").child(String.valueOf(storeCode)).child(prd_name)
+                .setValue(stock);
 
+        historyAdapter.notifyDataSetChanged();
     }
 }

@@ -3,6 +3,8 @@ package com.example.nonodeluxe;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.nonodeluxe.model.EmpItem;
+
 public class Preferences {
     public static final String PREFERENCES_NAME = "login_preference";
 

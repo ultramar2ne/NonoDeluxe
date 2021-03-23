@@ -7,6 +7,7 @@
     android:orientation="horizontal"
     android:gravity="center">
 
+    <!--    store code-->
     <TextView
         android:id="@+id/item_storeCode"
         android:layout_width="80dp"
@@ -17,6 +18,7 @@
         android:textStyle="bold"
         android:gravity="right"/>
 
+    <!--    store name-->
     <TextView
         android:id="@+id/item_storeName"
         android:layout_width="wrap_content"

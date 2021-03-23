@@ -2,18 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nonodeluxe">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.Camera.autofocus" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_start"
+        android:icon="@mipmap/launcher_snc"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrdInfoActivity"></activity>
+        <activity android:name=".StockChangeActivity"></activity>
+        <activity android:name=".PrdInfoActivity" />
         <activity android:name=".PrdListActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".EmpMainActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ScanCodeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
