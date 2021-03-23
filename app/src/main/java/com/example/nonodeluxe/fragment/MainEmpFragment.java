@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.nonodeluxe.PrdListActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
+import com.example.nonodeluxe.StockChangeActivity;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
 import com.example.nonodeluxe.model.MainMenuItem;
 import com.example.nonodeluxe.model.StoreItem;
@@ -126,25 +127,23 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
     private void fillExampleList() {
         menuItems = new ArrayList<>();
 
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"입고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
+        menuItems.add(new MainMenuItem(R.mipmap.ic_23,"입출고"));
+        menuItems.add(new MainMenuItem(R.mipmap.ic_22,"제품목록"));
     }
 
     @Override
     public void onItemClick(int position) {
         switch (position){
             case 0:
+                startActivity(new Intent(getActivity(),StockChangeActivity.class));
                 break;
             case 1:
+                startActivity(new Intent(getActivity(),PrdListActivity.class));
                 break;
             case 2:
                 break;
             case 3:
-                Intent intent = new Intent(getActivity(), PrdListActivity.class);
-//                intent.putExtra("hello","hello");
-                startActivity(intent);
+
                 break;
         }
     }
