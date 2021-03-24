@@ -1,6 +1,7 @@
 package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -152,7 +153,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
             case R.id.toolbar_scanner:
                 Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
                 intent.putExtra("ItemList",prdItems);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 return true;
             case R.id.toolbar_add:
                 FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
@@ -188,5 +189,19 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         setStockData();
         setPrdData();
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                PrdItem selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
+                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+                intent.putExtra("prd_name",selectedItem.getName());
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }

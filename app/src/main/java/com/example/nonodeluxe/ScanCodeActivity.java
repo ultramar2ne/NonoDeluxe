@@ -64,9 +64,10 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
             for (PrdItem currentItem : prdItems){
                 if (currentItem.getBarcode() == resultBarcode){
                     check = true;
-                    Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
-                    intent.putExtra("prd_name",currentItem.getName());
-                    startActivity(intent);
+                    Intent outIntent = new Intent(getApplicationContext(),PrdListActivity.class);
+                    outIntent.putExtra("prd_selected",currentItem);
+//                    outIntent.putExtra("prd_name",currentItem.getName());
+                    setResult(RESULT_OK,outIntent);
                     finish();
                     break;
                 }
