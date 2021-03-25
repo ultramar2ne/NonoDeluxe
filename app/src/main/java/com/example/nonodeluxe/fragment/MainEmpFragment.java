@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.PrdListActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
@@ -39,8 +40,6 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
     ArrayAdapter<String> arrayAdapter;
-
-    public static int currentStoreCode;
 
     TextView empName;
     Spinner spinner;
@@ -79,7 +78,6 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
         arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.style_spinner,strings);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
-        currentStoreCode = 0;
 
         toolbar.setTitle(Preferences.getString(getActivity(),"unitName"));
         empName.setText("담당자: " +  Preferences.getString(getActivity(),"id"));
@@ -127,8 +125,8 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
     private void fillExampleList() {
         menuItems = new ArrayList<>();
 
-        menuItems.add(new MainMenuItem(R.mipmap.ic_23,"입출고"));
-        menuItems.add(new MainMenuItem(R.mipmap.ic_22,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입출고"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_format,"제품목록"));
     }
 
     @Override
@@ -150,7 +148,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        currentStoreCode = storeItems.get(position).getStore_code();
+        MainActivity.currentStoreCode = storeItems.get(position).getStore_code();
 //        Toast.makeText(getActivity(),storeItems.get(position).getStore_name(),Toast.LENGTH_SHORT).show();
     }
 

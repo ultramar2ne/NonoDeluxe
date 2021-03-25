@@ -58,8 +58,12 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (sel_type == PrdCase.NEW){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add_selected,parent,false);
             return new PrdNewViewHolder(view, onItemClickListener);
-
+        } else if (sel_type == PrdCase.SIMPLE){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd,parent,false);
+            return new PrdListViewHolder(view, onItemClickListener);
         }
+
+
 //        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd, parent, false);
 //        PrdListViewHolder evh = new PrdListViewHolder(view, onItemClickListener);
         return null;
@@ -68,8 +72,13 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public void onBindViewHolder(@NonNull MyItemView holder, int position) {
         if (holder instanceof PrdListViewHolder){
-            PrdListViewHolder viewHolder = (PrdListViewHolder)holder;
-            viewHolder.onBind(prdItems.get(position));
+            if (sel_type == PrdCase.LIST){
+                PrdListViewHolder viewHolder = (PrdListViewHolder)holder;
+                viewHolder.onBind(prdItems.get(position));
+            } else if (sel_type == PrdCase.SIMPLE){
+                PrdListViewHolder viewHolder = (PrdListViewHolder)holder;
+                viewHolder.onBindSimple(prdItems.get(position));
+            }
         } else if (holder instanceof PrdAddViewHolder){
             PrdAddViewHolder viewHolder = (PrdAddViewHolder) holder;
             viewHolder.onBind(prdItems.get(position),prdChecked[position]);

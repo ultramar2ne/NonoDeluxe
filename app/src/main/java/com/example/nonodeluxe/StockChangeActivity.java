@@ -3,18 +3,32 @@ package com.example.nonodeluxe;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 
+import com.example.nonodeluxe.adapter.HistoryAdapter;
+import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.fragment.MainEmpFragment;
+import com.example.nonodeluxe.fragment.NumberPickerDialog;
+import com.example.nonodeluxe.fragment.PrdListFragment;
+import com.example.nonodeluxe.model.HistoryItem;
+import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
+import com.example.nonodeluxe.viewholder.HistoryViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,18 +39,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class StockChangeActivity extends AppCompatActivity implements View.OnClickListener {
+public class StockChangeActivity extends AppCompatActivity implements View.OnClickListener, PrdListFragment.OnFragmentInteractionListener, NumberPicker.OnValueChangeListener {
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private Date mDate = new Date(System.currentTimeMillis());
 
+    NumberPickerDialog numberPickerDialog;
+
     private ArrayList<Integer> stockItems = new ArrayList<>();
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
-    private ArrayList<PrdItem> etcItems = new ArrayList<>();
 
+    private ArrayList<HistoryItem> addItems = new ArrayList<>();
+    private PrdItem selectedItem;
+
+    ProgressDialog progressDialog;
     int mYear, mMonth, mDay;
 
     Button btn_search;
@@ -47,13 +66,18 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     Button btn_add;
     ImageButton btn_save;
 
+    RecyclerView recyclerView;
+    HistoryAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_change);
 
-        setStockData();
-        setPrdData();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         btn_search = (Button)findViewById(R.id.change_btn_search);
         btn_type = (Button)findViewById(R.id.change_btn_type);
@@ -63,6 +87,8 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         btn_scanner = (ImageButton)findViewById(R.id.change_btn_barcode);
         btn_save = (ImageButton)findViewById(R.id.change_btn_save);
 
+        recyclerView = (RecyclerView)findViewById(R.id.change_recycler);
+
         btn_search.setOnClickListener(this);
         btn_type.setOnClickListener(this);
         btn_changeStock.setOnClickListener(this);
@@ -71,6 +97,13 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         btn_add.setOnClickListener(this);
         btn_scanner.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+
+        numberPickerDialog = new NumberPickerDialog();
+        numberPickerDialog.setValueChangeListener(this);
+
+        setStockData();
+        setPrdData();
+        setRecyclerView();
 
         mYear = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(mDate));
         mMonth = Integer.parseInt(new SimpleDateFormat("MM",Locale.KOREA).format(mDate));
@@ -90,10 +123,26 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         };
     }
 
+    private void setRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter = new HistoryAdapter(addItems);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.change_btn_search:
+                openFragment(prdItems);
                 break;
 
             case R.id.change_btn_type:
@@ -104,6 +153,15 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.change_btn_changeStock:
+                Bundle bundle = new Bundle(6);
+                bundle.putString("title", btn_search.getText().toString()); // key , value
+                bundle.putString("subtitle", btn_type.getText().toString()); // key , value
+                bundle.putInt("maxvalue", 100); // key , value
+                bundle.putInt("minvalue", 1); // key , value
+                bundle.putInt("step", 1); // key , value
+                bundle.putInt("defvalue", 1); // key , value
+                numberPickerDialog.setArguments(bundle);
+                numberPickerDialog.show(getSupportFragmentManager(),"hello");
                 break;
 
             case R.id.change_btn_date:
@@ -128,6 +186,8 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setStockData() {
+
+        btn_scanner.setClickable(false);
         // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
         stockItems.clear();
         stockKeys.clear();
@@ -170,10 +230,9 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                                 }
                             }
 
-//                            if (!check){
-//                                etcItems.add(currentItem);
-//                            }
                         }
+                        progressDialog.dismiss();
+                        btn_scanner.setClickable(true);
                     }
 
                     @Override
@@ -184,12 +243,33 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    public void openFragment(ArrayList<PrdItem> prdItems){
+        PrdListFragment fragment = PrdListFragment.newInstance(prdItems);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
+        transaction.addToBackStack(null);
+        transaction.add(R.id.change_container,fragment).commit();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null){
-            PrdItem selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
+            selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
             btn_search.setText(selectedItem.getName());
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(PrdItem selectedItem) {
+        this.selectedItem = selectedItem;
+        btn_search.setText(selectedItem.getName());
+        onBackPressed();
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        btn_changeStock.setText(picker.getValue() + 1 + "");
     }
 }

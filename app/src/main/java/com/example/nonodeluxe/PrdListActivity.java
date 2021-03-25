@@ -39,7 +39,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private ArrayList<PrdItem> etcItems = new ArrayList<>();
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
 
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
@@ -139,8 +139,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_prdlist_toolbar, menu);
-
+        getMenuInflater().inflate(R.menu.toolbar_prdlist_dark, menu);
         return true;
     }
 

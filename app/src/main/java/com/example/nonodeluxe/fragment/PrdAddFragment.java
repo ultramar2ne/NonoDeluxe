@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.model.PrdCase;
@@ -27,7 +28,7 @@ import java.util.HashMap;
 
 public class PrdAddFragment extends Fragment implements View.OnClickListener, PrdListAdapter.OnItemClickListener {
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
 
     RecyclerView recyclerView;
     RecyclerView recycelrview_showAdd;

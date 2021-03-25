@@ -47,8 +47,20 @@ public class PrdListViewHolder extends MyItemView {
         this.data = (PrdItem)data;
         prd_name.setText(this.data.getName());
         category.setText(this.data.getCategory());
+
+        stock.setVisibility(View.VISIBLE);
+        standard.setVisibility(View.VISIBLE);
         stock.setText(String.valueOf(this.data.getStock()));
         standard.setText(this.data.getStandard());
+    }
+
+    public void onBindSimple(MyItem data) {
+        this.data = (PrdItem)data;
+        prd_name.setText(this.data.getName());
+        category.setText(this.data.getCategory());
+
+        stock.setVisibility(View.INVISIBLE);
+        standard.setVisibility(View.INVISIBLE);
     }
 
     public void setOnViewHolderItemClickListener(OnViewHolderItemClickListener onViewHolderItemClickListener){

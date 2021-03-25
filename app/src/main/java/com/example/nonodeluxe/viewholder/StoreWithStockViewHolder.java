@@ -11,14 +11,14 @@ import com.example.nonodeluxe.adapter.StoreListAdapter;
 import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.StoreItem;
 
-public class StoreListViewHolder extends RecyclerView.ViewHolder {
+public class StoreWithStockViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView store_code;
     public TextView store_name;
+    public TextView store_stock;
 
     private StoreItem storeItem;
 
-    public StoreListViewHolder(@NonNull final View view, final StoreListAdapter.OnItemClickListener listener) {
+    public StoreWithStockViewHolder(@NonNull final View view, final StoreListAdapter.OnItemClickListener listener) {
         super(view);
 //        store_code = view.findViewById(R.id.item_storeCode);
         store_name = view.findViewById(R.id.item_storeName);

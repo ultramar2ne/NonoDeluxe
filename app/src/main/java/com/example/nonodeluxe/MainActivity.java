@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int currentStoreCode = 0;
     Fragment HomeFragment ;
 
     @Override

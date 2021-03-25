@@ -10,14 +10,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/launcher_snc"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/launcher_snc"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AdminListActivity"></activity>
         <activity android:name=".StockChangeActivity" />
         <activity android:name=".PrdInfoActivity" />
         <activity android:name=".PrdListActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".EmpMainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ScanCodeActivity" />
         <activity android:name=".SplashActivity">

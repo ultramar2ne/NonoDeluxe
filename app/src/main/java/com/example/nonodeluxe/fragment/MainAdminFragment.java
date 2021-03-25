@@ -1,9 +1,12 @@
 package com.example.nonodeluxe.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,9 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nonodeluxe.AdminListActivity;
+import com.example.nonodeluxe.PrdListActivity;
 import com.example.nonodeluxe.R;
+import com.example.nonodeluxe.ScanCodeActivity;
+import com.example.nonodeluxe.StockChangeActivity;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
 import com.example.nonodeluxe.model.MainMenuItem;
+import com.example.nonodeluxe.model.PrdItem;
 
 import java.util.ArrayList;
 
@@ -24,6 +32,8 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
     MainMenuAdapter mainMenuAdapter;
     RecyclerView recyclerView;
     Toolbar toolbar;
+
+    Intent intent;
 
     public MainAdminFragment() {
 
@@ -58,22 +68,30 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
     private void fillMenuItems() {
         menuItems = new ArrayList<>();
 
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"입고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입고 및 출고"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_format_j,"매장별 목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_format,"제품별 목록"));
     }
 
     @Override
     public void onItemClick(int position) {
         switch (position){
             case 0:
+                startActivity(new Intent(getActivity(), StockChangeActivity.class));
                 break;
             case 1:
+                intent = new Intent(getActivity(), AdminListActivity.class);
+                intent.putExtra("check",true);
+                startActivity(intent);
                 break;
             case 2:
+                intent = new Intent(getActivity(), AdminListActivity.class);
+                intent.putExtra("check",false);
+                startActivity(intent);
                 break;
             case 3:
+                break;
+            case 4:
                 break;
         }
     }

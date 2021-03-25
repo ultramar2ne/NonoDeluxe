@@ -4,30 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="horizontal"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="10dp"
+    android:orientation="horizontal">
 
     <!--    store code-->
-    <TextView
-        android:id="@+id/item_storeCode"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/jsdongkang"
-        android:textColor="@color/xd_dark"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="right"/>
+<!--    <TextView-->
+<!--        android:id="@+id/item_storeCode"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fontFamily="@font/jsdongkang"-->
+<!--        android:textColor="@color/xd_dark"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:gravity="right"/>-->
 
     <!--    store name-->
     <TextView
         android:id="@+id/item_storeName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/xd_dark"
         android:fontFamily="@font/jsdongkang"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:gravity="center"
         android:layout_weight="1"/>
+
+
 
 </LinearLayout>

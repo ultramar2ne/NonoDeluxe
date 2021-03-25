@@ -32,7 +32,7 @@ import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private Date mDate = new Date(System.currentTimeMillis());
