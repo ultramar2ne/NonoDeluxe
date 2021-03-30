@@ -10,7 +10,7 @@
     <ProgressBar
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:indeterminateDrawable="@drawable/ic_refresh_dark" />
+        android:indeterminateDrawable="@drawable/ic_item_refresh_dark" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

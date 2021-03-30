@@ -5,19 +5,19 @@
 
     <item
         android:id="@+id/toolbar_search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_toolbar_search"
         app:showAsAction="always"
         android:title="search" />
 
     <item
         android:id="@+id/toolbar_scanner"
-        android:icon="@drawable/ic_scanner"
+        android:icon="@drawable/ic_toolbar_scanner"
         app:showAsAction="always"
         android:title="scanner" />
 
     <item
         android:id="@+id/toolbar_add"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_toolbar_add"
         app:showAsAction="always"
         android:title="add" />
 

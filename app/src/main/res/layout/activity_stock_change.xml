@@ -44,7 +44,7 @@
             android:id="@+id/change_btn_barcode"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_scanner_dark"
+            android:src="@drawable/ic_toolbar_scanner_dark"
             android:background="@drawable/corner_round_yellow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/change_btn_type"

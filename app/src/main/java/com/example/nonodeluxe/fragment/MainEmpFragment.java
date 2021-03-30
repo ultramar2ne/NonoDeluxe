@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,7 +125,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
         menuItems = new ArrayList<>();
 
         menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입출고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_format,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_main_list,"제품목록"));
     }
 
     @Override

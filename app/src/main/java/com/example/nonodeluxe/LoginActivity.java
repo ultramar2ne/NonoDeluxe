@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Preferences.setString(LoginActivity.this,"unitName",empItem.getUnit_name());
                                     Preferences.setString(LoginActivity.this,"grade",empItem.getEmp_grade());
 
+                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
                                 } else {
                                     Toast.makeText(getApplicationContext(),"비밀번호가 맞지 않습니다.",Toast.LENGTH_SHORT).show();
@@ -84,7 +85,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             } else {
                                 Toast.makeText(getApplicationContext(),"아이디를 확인해 주세요.",Toast.LENGTH_SHORT).show();
                             }
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         }
 
                         @Override
