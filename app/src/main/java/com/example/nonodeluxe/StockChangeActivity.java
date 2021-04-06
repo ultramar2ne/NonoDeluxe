@@ -170,6 +170,27 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.change_btn_add:
+                int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
+                HistoryItem currentItem = new HistoryItem();
+                currentItem.setYear(mYear);
+                currentItem.setMonth(mMonth);
+                currentItem.setDay(mDay);
+                currentItem.setChange(changeStock);
+                currentItem.setName(selectedItem.getName());
+
+                if (btn_type.getText().toString().equals("입고")){
+                    int i = selectedItem.getStock() + changeStock;
+                    currentItem.setStock(i);
+                    currentItem.setType(1);
+                } else {
+                    currentItem.setStock(selectedItem.getStock() - changeStock);
+                    currentItem.setType(0);
+                }
+
+
+
+                addItems.add(currentItem);
+                adapter.notifyDataSetChanged();
                 break;
 
             case R.id.change_btn_barcode:

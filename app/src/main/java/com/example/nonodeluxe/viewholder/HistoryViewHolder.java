@@ -47,7 +47,11 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
         String date = String.valueOf(historyItem.getMonth() + "월 " + historyItem.getDay() + "일");
 
-        history_date.setText(date);
+        if (historyItem.getName() != null){
+            history_date.setText(historyItem.getName());
+        } else {
+            history_date.setText(date);
+        }
         history_changeStock.setText(String.valueOf(historyItem.getChange()));
         history_stock.setText(String.valueOf(historyItem.getStock()));
 

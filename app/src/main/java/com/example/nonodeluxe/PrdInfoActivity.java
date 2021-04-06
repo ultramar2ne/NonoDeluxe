@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
@@ -191,14 +193,36 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         HistoryItem newItem = new HistoryItem(mYear,mMonth,mDay,picker.getValue(),stock,type);
+
+        String key = FirebaseDatabase.getInstance().getReference()
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name).push().getKey();
+
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
-                .child(String.valueOf(historyItems.size())).setValue(newItem);
+                .child(key).setValue(newItem);
 
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("stock").child(String.valueOf(storeCode)).child(prd_name)
                 .setValue(stock);
 
         historyAdapter.notifyDataSetChanged();
+    }
+
+    public void onSort(ArrayList<HistoryItem> historyItems){
+
+        ArrayList<HistoryItem> sortedItems = new ArrayList<>();
+
+        for (int i = 0 ; i <= historyItems.size() ; i ++){
+        }
+
+        Collections.sort(historyItems, new Comparator<HistoryItem>() {
+            @Override
+            public int compare(HistoryItem o1, HistoryItem o2) {
+                return o1.getMonth();
+            }
+        });
+
+
+
     }
 }

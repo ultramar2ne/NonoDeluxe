@@ -72,11 +72,15 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
     public void onItemClick(int position) {
         switch (position){
             case 0:
-                startActivity(new Intent(getActivity(), StockChangeActivity.class));
+                intent = new Intent(getActivity(), AdminListActivity.class);
+                intent.putExtra("check",false);
+                intent.putExtra("mode",1);
+                startActivity(intent);
                 break;
             case 1:
                 intent = new Intent(getActivity(), AdminListActivity.class);
                 intent.putExtra("check",false);
+                intent.putExtra("mode",2);
                 startActivity(intent);
                 break;
             case 2:

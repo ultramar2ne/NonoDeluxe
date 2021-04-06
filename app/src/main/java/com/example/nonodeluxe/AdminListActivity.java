@@ -36,6 +36,9 @@ public class AdminListActivity extends AppCompatActivity {
     StoreListAdapter storeListAdapter;
     PrdListAdapter prdListAdapter;
 
+    boolean check;
+    int mode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +50,9 @@ public class AdminListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        boolean check = getIntent().getBooleanExtra("check",false);
+        check = getIntent().getBooleanExtra("check",false);
+        mode = getIntent().getIntExtra("mode",0);
+
         if (check){
             toolbar.setTitle("제품별 목록");
             setPrdRecyclerView();
@@ -86,7 +91,14 @@ public class AdminListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 MainActivity.currentStoreCode = storeItems.get(position).getStore_code();
-                startActivity(new Intent(getApplicationContext(),PrdListActivity.class));
+
+                if (mode == 1){
+                    startActivity(new Intent(getApplicationContext(),StockChangeActivity.class));
+                } else if (mode == 2){
+                    startActivity(new Intent(getApplicationContext(),PrdListActivity.class));
+                }
+
+
             }
         });
 
