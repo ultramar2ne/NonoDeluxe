@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <Button
+    <ImageButton
         android:id="@+id/month_btn_previous"
         android:layout_width="60dp"
         android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_item_arrow_left"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
@@ -21,10 +23,12 @@
         app:layout_constraintLeft_toRightOf="@id/month_btn_previous"
         app:layout_constraintRight_toLeftOf="@id/month_btn_next"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/month_btn_next"
         android:layout_width="60dp"
         android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_item_arrow_right"
         app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
