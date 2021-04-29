@@ -12,7 +12,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,15 +19,11 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 
-import com.example.nonodeluxe.adapter.HistoryAdapter;
-import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.fragment.MainEmpFragment;
+import com.example.nonodeluxe.adapter.InventoryAdapter;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.fragment.PrdListFragment;
-import com.example.nonodeluxe.model.HistoryItem;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.InventoryItem;
 import com.example.nonodeluxe.model.PrdItem;
-import com.example.nonodeluxe.viewholder.HistoryViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -52,7 +47,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
 
-    private ArrayList<HistoryItem> addItems = new ArrayList<>();
+    private ArrayList<InventoryItem> addItems = new ArrayList<>();
     private PrdItem selectedItem;
 
     ProgressDialog progressDialog;
@@ -67,7 +62,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     ImageButton btn_save;
 
     RecyclerView recyclerView;
-    HistoryAdapter adapter;
+    InventoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,12 +120,12 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new HistoryAdapter(addItems);
+        adapter = new InventoryAdapter(addItems);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new HistoryAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new InventoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 
@@ -171,7 +166,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.change_btn_add:
                 int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
-                HistoryItem currentItem = new HistoryItem();
+                InventoryItem currentItem = new InventoryItem();
                 currentItem.setYear(mYear);
                 currentItem.setMonth(mMonth);
                 currentItem.setDay(mDay);

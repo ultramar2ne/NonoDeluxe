@@ -65,6 +65,7 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
 
         menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입고 및 출고"));
         menuItems.add(new MainMenuItem(R.drawable.ic_main_list,"매장별 목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_add,"상품 추가"));
 //        menuItems.add(new MainMenuItem(R.drawable.ic_format,"제품별 목록"));
     }
 
@@ -82,11 +83,13 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
                 intent.putExtra("check",false);
                 intent.putExtra("mode",2);
                 startActivity(intent);
+
+//                intent = new Intent(getActivity(), AdminListActivity.class);
+//                intent.putExtra("check",true);
+//                startActivity(intent);        제품별매장목록
                 break;
             case 2:
-                intent = new Intent(getActivity(), AdminListActivity.class);
-                intent.putExtra("check",true);
-                startActivity(intent);
+
                 break;
             case 3:
                 break;

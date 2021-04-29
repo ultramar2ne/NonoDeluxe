@@ -6,7 +6,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nonodeluxe.OnViewHolderItemClickListener;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.model.MyItem;

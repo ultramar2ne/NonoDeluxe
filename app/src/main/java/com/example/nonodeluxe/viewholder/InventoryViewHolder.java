@@ -8,21 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.adapter.HistoryAdapter;
-import com.example.nonodeluxe.model.HistoryItem;
+import com.example.nonodeluxe.adapter.InventoryAdapter;
+import com.example.nonodeluxe.model.InventoryItem;
 import com.example.nonodeluxe.model.MyItem;
-import com.example.nonodeluxe.model.StoreItem;
 
-public class HistoryViewHolder extends RecyclerView.ViewHolder {
+public class InventoryViewHolder extends RecyclerView.ViewHolder {
 
     public TextView history_date;
     public TextView history_type;
     public TextView history_changeStock;
     public TextView history_stock;
 
-    private HistoryItem historyItem;
+    private InventoryItem inventoryItem;
 
-    public HistoryViewHolder(@NonNull final View view, final HistoryAdapter.OnItemClickListener listener) {
+    public InventoryViewHolder(@NonNull final View view, final InventoryAdapter.OnItemClickListener listener) {
         super(view);
         history_date = view.findViewById(R.id.history_date);
         history_type = view.findViewById(R.id.history_txt_change);
@@ -43,19 +42,19 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(MyItem data){
-        historyItem = (HistoryItem) data;
+        inventoryItem = (InventoryItem) data;
 
-        String date = String.valueOf(historyItem.getMonth() + "월 " + historyItem.getDay() + "일");
+        String date = String.valueOf(inventoryItem.getMonth() + "월 " + inventoryItem.getDay() + "일");
 
-        if (historyItem.getName() != null){
-            history_date.setText(historyItem.getName());
+        if (inventoryItem.getName() != null){
+            history_date.setText(inventoryItem.getName());
         } else {
             history_date.setText(date);
         }
-        history_changeStock.setText(String.valueOf(historyItem.getChange()));
-        history_stock.setText(String.valueOf(historyItem.getStock()));
+        history_changeStock.setText(String.valueOf(inventoryItem.getChange()));
+        history_stock.setText(String.valueOf(inventoryItem.getStock()));
 
-        if (historyItem.getType() == 1){
+        if (inventoryItem.getType() == 1){
             history_type.setTextColor(Color.rgb(0,160,0));
             history_type.setText("입고");
         } else {

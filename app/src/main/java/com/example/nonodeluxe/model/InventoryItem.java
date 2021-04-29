@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class HistoryItem extends MyItem implements Comparable {
+public class InventoryItem extends MyItem {
     private int year;
     private int month;
     private int day;
@@ -18,11 +18,11 @@ public class HistoryItem extends MyItem implements Comparable {
 
     private String name;
 
-    public HistoryItem(){
+    public InventoryItem(){
 
     }
 
-    public HistoryItem(int year, int month, int day, int change, int stock, int type) {
+    public InventoryItem(int year, int month, int day, int change, int stock, int type) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -86,10 +86,5 @@ public class HistoryItem extends MyItem implements Comparable {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    @Override
-    public int compareTo(HistoryItem historyItem) {
-        return 0;
     }
 }

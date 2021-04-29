@@ -1,6 +1,6 @@
 package com.example.nonodeluxe.model;
 
-public class EmpItem extends MyItem{
+public class UserItem extends MyItem{
     private String name;
     private String id;
     private String pw;
@@ -10,11 +10,11 @@ public class EmpItem extends MyItem{
     private String emp_grade;
     private String unit_name;
 
-    public EmpItem(){
+    public UserItem(){
 
     }
 
-    public EmpItem(String name, String id, String pw, int tel_num, int emp_code, int unit_code, String emp_grade, String unit_name) {
+    public UserItem(String name, String id, String pw, int tel_num, int emp_code, int unit_code, String emp_grade, String unit_name) {
         this.name = name;
         this.id = id;
         this.pw = pw;
@@ -25,7 +25,7 @@ public class EmpItem extends MyItem{
         this.unit_name = unit_name;
     }
 
-    public EmpItem(String name, String pw, int tel_num, int emp_code, int unit_code){
+    public UserItem(String name, String pw, int tel_num, int emp_code, int unit_code){
         this.name = name;
         this.pw = pw;
         this.tel_num = tel_num;
