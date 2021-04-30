@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.nonodeluxe.AdminListActivity;
+import com.example.nonodeluxe.PrdNewActivity;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.StockChangeActivity;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
@@ -89,6 +90,8 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
 //                startActivity(intent);        제품별매장목록
                 break;
             case 2:
+                intent = new Intent(getActivity(), PrdNewActivity.class);
+                startActivity(intent);
 
                 break;
             case 3:

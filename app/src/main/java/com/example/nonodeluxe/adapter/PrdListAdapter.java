@@ -13,7 +13,7 @@ import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
 import com.example.nonodeluxe.viewholder.PrdAddViewHolder;
 import com.example.nonodeluxe.viewholder.PrdListViewHolder;
-import com.example.nonodeluxe.viewholder.PrdNewViewHolder;
+import com.example.nonodeluxe.viewholder.PrdSelectedViewHolder;
 
 import java.util.ArrayList;
 
@@ -57,7 +57,7 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
             return new PrdAddViewHolder(view, onItemClickListener);
         } else if (sel_type == PrdCase.NEW){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add_selected,parent,false);
-            return new PrdNewViewHolder(view, onItemClickListener);
+            return new PrdSelectedViewHolder(view, onItemClickListener);
         } else if (sel_type == PrdCase.SIMPLE){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd,parent,false);
             return new PrdListViewHolder(view, onItemClickListener);
@@ -82,8 +82,8 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
         } else if (holder instanceof PrdAddViewHolder){
             PrdAddViewHolder viewHolder = (PrdAddViewHolder) holder;
             viewHolder.onBind(prdItems.get(position),prdChecked[position]);
-        } else if (holder instanceof PrdNewViewHolder){
-            PrdNewViewHolder viewHolder = (PrdNewViewHolder)holder;
+        } else if (holder instanceof PrdSelectedViewHolder){
+            PrdSelectedViewHolder viewHolder = (PrdSelectedViewHolder)holder;
             viewHolder.onBind(prdItems.get(position));
         }
 //

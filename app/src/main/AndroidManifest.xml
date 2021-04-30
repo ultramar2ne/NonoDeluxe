@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/launcher_snc"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminListActivity"></activity>
+        <activity android:name=".PrdNewActivity"></activity>
+        <activity android:name=".AdminListActivity" />
         <activity android:name=".StockChangeActivity" />
         <activity android:name=".PrdInfoActivity" />
         <activity android:name=".PrdListActivity" />

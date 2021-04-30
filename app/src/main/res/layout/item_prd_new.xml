@@ -4,10 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="3dp">
+    android:layout_height="match_parent"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,87 +13,112 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/add_txt_1"
-            android:layout_width="match_parent"
+            android:id="@+id/prdNew_txt_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="필수속성"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="제품이름"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/add_txt_2"
-            android:layout_width="100dp"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/inputLayout_edt_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="제품이름"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_txt_1"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@id/prdNew_txt_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/prdNew_edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:textSize="15sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/add_txt_3"
-            android:layout_width="100dp"
+            android:id="@+id/prdNew_txt_barcode"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="규격"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_txt_2"
-            android:layout_marginTop="10dp"/>
+            android:text="바코드"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputLayout_edt_name"
+            android:layout_marginTop="20dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout_edt_barcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:layout_constraintTop_toBottomOf="@id/prdNew_txt_barcode"
+            app:layout_constraintRight_toLeftOf="@id/prdNew_btn_barcode"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/prdNew_edt_barcode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="15sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/prdNew_btn_barcode"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_toolbar_scanner_dark"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/inputLayout_edt_barcode"
+            app:layout_constraintTop_toBottomOf="@id/prdNew_txt_barcode"
+            app:layout_constraintBottom_toBottomOf="@id/inputLayout_edt_barcode"/>
+
 
         <TextView
-            android:id="@+id/add_txt_4"
-            android:layout_width="100dp"
+            android:id="@+id/prdNew_txt_category"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:text="카테고리"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_txt_3"
-            android:layout_marginTop="10dp"/>
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputLayout_edt_barcode"
+            android:layout_marginTop="20dp"/>
 
+        <Spinner
+            android:id="@+id/prdNew_btn_category"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/prdNew_txt_category"
+            android:background="@color/gray_very_light" />
 
-        <EditText
-            android:id="@+id/add_edt_1"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/prdNew_txt_standard"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:background="@drawable/corner_round"
-            android:textSize="20dp"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintTop_toBottomOf="@id/add_txt_1"
-            app:layout_constraintLeft_toRightOf="@+id/add_txt_2"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp"/>
+            android:text="규격"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/prdNew_btn_category"
+            android:layout_marginTop="20dp"/>
 
-        <EditText
-            android:id="@+id/add_edt_2"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout_edt_standard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:background="@drawable/corner_round"
-            android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/add_edt_1"
-            app:layout_constraintLeft_toRightOf="@+id/add_txt_3"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp"/>
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:layout_constraintTop_toBottomOf="@id/prdNew_txt_standard">
 
-        <EditText
-            android:id="@+id/add_edt_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:background="@drawable/corner_round"
-            android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/add_edt_2"
-            app:layout_constraintLeft_toRightOf="@+id/add_txt_4"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/prdNew_edt_standard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:textSize="15sp"/>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

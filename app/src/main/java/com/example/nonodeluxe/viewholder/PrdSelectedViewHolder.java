@@ -12,15 +12,15 @@ import com.example.nonodeluxe.model.MyItem;
 import com.example.nonodeluxe.model.MyItemView;
 import com.example.nonodeluxe.model.PrdItem;
 
-public class PrdNewViewHolder extends MyItemView {
+public class PrdSelectedViewHolder extends MyItemView {
 
     public TextView prd_name;
 
     private PrdItem prdItem;
 
-    public PrdNewViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
+    public PrdSelectedViewHolder(@NonNull View view, final PrdListAdapter.OnItemClickListener listener) {
         super(view);
-        prd_name = view.findViewById(R.id.prdANew_txt_name);
+        prd_name = view.findViewById(R.id.prdSelected_txt_name);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

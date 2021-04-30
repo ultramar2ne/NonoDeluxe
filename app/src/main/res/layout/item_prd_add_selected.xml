@@ -9,7 +9,7 @@
 
 <!--    selected item name-->
     <TextView
-        android:id="@+id/prdANew_txt_name"
+        android:id="@+id/prdSelected_txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

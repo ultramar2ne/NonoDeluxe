@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.PrdListActivity;
+import com.example.nonodeluxe.PrdNewActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.StockChangeActivity;
@@ -126,6 +127,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
 
         menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입출고"));
         menuItems.add(new MainMenuItem(R.drawable.ic_main_list,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_add,"상품 추가"));
     }
 
     @Override
@@ -138,6 +140,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
                 startActivity(new Intent(getActivity(),PrdListActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(getActivity(), PrdNewActivity.class));
                 break;
             case 3:
 

@@ -7,7 +7,7 @@ public class PrdItem  extends MyItem{
     private String standard;
     private int barcode;
 
-    PrdItem() {
+    public PrdItem() {
     }
 
     public PrdItem(String name, String category, int stock, String standard, int barcode){
