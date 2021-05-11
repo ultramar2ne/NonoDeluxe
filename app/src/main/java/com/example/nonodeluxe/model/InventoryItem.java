@@ -1,12 +1,14 @@
 package com.example.nonodeluxe.model;
 
 public class InventoryItem extends MyItem {
-    private int year;
-    private int month;
-    private int day;
+    private String date;
+//    private int year;
+//    private int month;
+//    private int day;
     private int change;
     private int stock;
     private int type;   // input or output
+    private String name;
 
     public String getName() {
         return name;
@@ -16,33 +18,31 @@ public class InventoryItem extends MyItem {
         this.name = name;
     }
 
-    private String name;
-
     public InventoryItem(){
 
     }
 
     public InventoryItem(int year, int month, int day, int change, int stock, int type) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
+//        this.year = year;
+//        this.month = month;
+//        this.day = day;
 //        this.dateTime = dateTime;
         this.change = change;
         this.stock = stock;
         this.type = type;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getDay() {
-        return day;
-    }
+//    public int getYear() {
+//        return year;
+//    }
+//
+//    public int getMonth() {
+//        return month;
+//    }
+//
+//    public int getDay() {
+//        return day;
+//    }
 
 //    public String getDateTime() {
 //        return dateTime;
@@ -60,17 +60,26 @@ public class InventoryItem extends MyItem {
         return type;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public String getDate() {
+        return date;
     }
 
-    public void setMonth(int month) {
-        this.month = month;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public void setDay(int day) {
-        this.day = day;
-    }
+
+//    public void setYear(int year) {
+//        this.year = year;
+//    }
+//
+//    public void setMonth(int month) {
+//        this.month = month;
+//    }
+//
+//    public void setDay(int day) {
+//        this.day = day;
+//    }
 
 //    public void setDateTime(String dateTime) {
 //        this.dateTime = dateTime;

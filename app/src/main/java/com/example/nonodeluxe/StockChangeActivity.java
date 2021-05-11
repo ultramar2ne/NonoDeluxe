@@ -194,6 +194,20 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(intent,0);
                 break;
             case R.id.change_btn_save:
+                progressDialog.show();
+                for (int i = 0 ; i < addItems.size();i++){
+                    String name = addItems.get(i).getName();
+                    addItems.get(i).setName(null);
+
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("real").child("history").child(String.valueOf(storeCode)).child(name)
+                            .child(String.valueOf(mYear + mMonth + mYear)).setValue(addItems.get(i));
+
+//                    FirebaseDatabase.getInstance().getReference()
+//                            .child("real").child("stock").child(String.valueOf(storeCode)).
+                }
+                progressDialog.dismiss();
+                onBackPressed();
                 break;
 
             default:

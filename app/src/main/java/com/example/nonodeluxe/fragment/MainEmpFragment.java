@@ -69,7 +69,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
         View view = inflater.inflate(R.layout.fragment_main_emp, container, false);
 
         fillStoreList();
-        fillExampleList();
+        fillMenuList();
 
         toolbar = view.findViewById(R.id.main_emp_toolbar);
         empName = view.findViewById(R.id.main_empName);
@@ -122,7 +122,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
                 });
     }
 
-    private void fillExampleList() {
+    private void fillMenuList() {
         menuItems = new ArrayList<>();
 
         menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입출고"));
