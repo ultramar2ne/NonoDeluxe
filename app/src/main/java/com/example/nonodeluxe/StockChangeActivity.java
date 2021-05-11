@@ -31,7 +31,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 
 public class StockChangeActivity extends AppCompatActivity implements View.OnClickListener, PrdListFragment.OnFragmentInteractionListener, NumberPicker.OnValueChangeListener {
@@ -46,8 +49,10 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<Integer> stockItems = new ArrayList<>();
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
+    private ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
 
     private ArrayList<InventoryItem> addItems = new ArrayList<>();
+    private ArrayList<String> changedStockItems = new ArrayList<>();
     private PrdItem selectedItem;
 
     ProgressDialog progressDialog;
@@ -167,11 +172,13 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
             case R.id.change_btn_add:
                 int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
                 InventoryItem currentItem = new InventoryItem();
-                currentItem.setYear(mYear);
-                currentItem.setMonth(mMonth);
-                currentItem.setDay(mDay);
+                String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
+                currentItem.setDate(date);
                 currentItem.setChange(changeStock);
                 currentItem.setName(selectedItem.getName());
+
+                if (!changedStockItems.contains(selectedItem.getName()))
+                    changedStockItems.add(selectedItem.getName());
 
                 if (btn_type.getText().toString().equals("입고")){
                     int i = selectedItem.getStock() + changeStock;
@@ -181,8 +188,6 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                     currentItem.setStock(selectedItem.getStock() - changeStock);
                     currentItem.setType(0);
                 }
-
-
 
                 addItems.add(currentItem);
                 adapter.notifyDataSetChanged();
@@ -194,25 +199,60 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(intent,0);
                 break;
             case R.id.change_btn_save:
+
                 progressDialog.show();
+
                 for (int i = 0 ; i < addItems.size();i++){
                     String name = addItems.get(i).getName();
                     addItems.get(i).setName(null);
 
+                    String key = FirebaseDatabase.getInstance().getReference()
+                            .child("real").child("history").child(String.valueOf(storeCode)).child(name).push().getKey();
+
                     FirebaseDatabase.getInstance().getReference()
                             .child("real").child("history").child(String.valueOf(storeCode)).child(name)
-                            .child(String.valueOf(mYear + mMonth + mYear)).setValue(addItems.get(i));
-
-//                    FirebaseDatabase.getInstance().getReference()
-//                            .child("real").child("stock").child(String.valueOf(storeCode)).
+                            .child(key).setValue(addItems.get(i));
                 }
+                sortInventoryItems();
+
                 progressDialog.dismiss();
-                onBackPressed();
+//                onBackPressed();
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void sortInventoryItems() {
+
+        for (int i = 0; i < changedStockItems.size();i++){
+            final String currentPrdName = changedStockItems.get(i);
+            FirebaseDatabase.getInstance().getReference()
+                    .child("real").child("history").child(String.valueOf(storeCode)).child(currentPrdName)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            inventoryItems.clear();
+                            for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                                InventoryItem inventoryItem = currentSnapshot.getValue(InventoryItem.class);
+                                inventoryItems.add(inventoryItem);
+                            }
+                            Collections.sort(inventoryItems, new SortByDate());
+
+                            for (int k = 0; k<inventoryItems.size();k++){
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("real").child("history").child(String.valueOf(storeCode)).child(currentPrdName)
+                                        .child(String.valueOf(k)).setValue(inventoryItems.get(k));
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+        }
+
     }
 
     private void setStockData() {
@@ -301,5 +341,12 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         btn_changeStock.setText(picker.getValue() + 1 + "");
+    }
+
+    private class SortByDate implements Comparator<InventoryItem> {
+        @Override
+        public int compare(InventoryItem a, InventoryItem b) {
+            return a.getDate().compareTo(b.getDate());
+        }
     }
 }

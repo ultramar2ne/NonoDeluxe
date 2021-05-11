@@ -191,7 +191,8 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        InventoryItem newItem = new InventoryItem(mYear,mMonth,mDay,picker.getValue(),stock,type);
+        String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
+        InventoryItem newItem = new InventoryItem(date,picker.getValue(),stock,type);
 
         String key = FirebaseDatabase.getInstance().getReference()
                 .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name).push().getKey();
@@ -207,21 +208,4 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         inventoryAdapter.notifyDataSetChanged();
     }
 
-    public void onSort(ArrayList<InventoryItem> inventoryItems){
-
-        ArrayList<InventoryItem> sortedItems = new ArrayList<>();
-
-        for (int i = 0; i <= inventoryItems.size() ; i ++){
-        }
-
-        Collections.sort(inventoryItems, new Comparator<InventoryItem>() {
-            @Override
-            public int compare(InventoryItem o1, InventoryItem o2) {
-                return o1.getMonth();
-            }
-        });
-
-
-
-    }
 }

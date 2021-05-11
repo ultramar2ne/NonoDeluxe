@@ -44,7 +44,7 @@ public class InventoryViewHolder extends RecyclerView.ViewHolder {
     public void onBind(MyItem data){
         inventoryItem = (InventoryItem) data;
 
-        String date = String.valueOf(inventoryItem.getMonth() + "월 " + inventoryItem.getDay() + "일");
+        String date = inventoryItem.getDate();
 
         if (inventoryItem.getName() != null){
             history_date.setText(inventoryItem.getName());
