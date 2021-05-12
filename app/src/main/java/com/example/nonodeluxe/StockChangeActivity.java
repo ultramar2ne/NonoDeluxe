@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.InventoryAdapter;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
@@ -44,8 +45,6 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private Date mDate = new Date(System.currentTimeMillis());
 
-    NumberPickerDialog numberPickerDialog;
-
     private ArrayList<Integer> stockItems = new ArrayList<>();
     private ArrayList<String> stockKeys = new ArrayList<>();
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
@@ -53,7 +52,10 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
 
     private ArrayList<InventoryItem> addItems = new ArrayList<>();
     private ArrayList<String> changedStockItems = new ArrayList<>();
+    private ArrayList<String> kKeys = new ArrayList<>();
     private PrdItem selectedItem;
+
+    private NumberPickerDialog numberPickerDialog;
 
     ProgressDialog progressDialog;
     int mYear, mMonth, mDay;
@@ -105,12 +107,15 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         setPrdData();
         setRecyclerView();
 
+        String ggDate = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(mDate);
+
         mYear = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(mDate));
         mMonth = Integer.parseInt(new SimpleDateFormat("MM",Locale.KOREA).format(mDate));
         mDay = Integer.parseInt(new SimpleDateFormat("dd",Locale.KOREA).format(mDate));
 
         btn_type.setText("입고");
-        btn_date.setText(mYear + "/" + mMonth + "/" + mDay);
+        btn_date.setText(ggDate);
+//        btn_date.setText(mYear + "/" + mMonth + "/" + mDay);
 
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -118,7 +123,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 mYear = year;
                 mMonth = month+1;
                 mDay = day;
-                btn_date.setText(mYear + "/" + mMonth + "/" + mDay);
+                btn_date.setText(String.format("%4d-%02d-%02d",mYear,mMonth,mDay));
             }
         };
     }
@@ -172,7 +177,8 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
             case R.id.change_btn_add:
                 int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
                 InventoryItem currentItem = new InventoryItem();
-                String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
+                String date = String.format("%4d-%02d-%02d",mYear,mMonth,mDay);
+//                String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
                 currentItem.setDate(date);
                 currentItem.setChange(changeStock);
                 currentItem.setName(selectedItem.getName());
@@ -216,7 +222,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 sortInventoryItems();
 
                 progressDialog.dismiss();
-//                onBackPressed();
+                onBackPressed();
                 break;
 
             default:
@@ -230,21 +236,35 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
             final String currentPrdName = changedStockItems.get(i);
             FirebaseDatabase.getInstance().getReference()
                     .child("real").child("history").child(String.valueOf(storeCode)).child(currentPrdName)
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             inventoryItems.clear();
                             for (DataSnapshot currentSnapshot : snapshot.getChildren()){
                                 InventoryItem inventoryItem = currentSnapshot.getValue(InventoryItem.class);
+                                kKeys.add(currentSnapshot.getKey());
                                 inventoryItems.add(inventoryItem);
                             }
                             Collections.sort(inventoryItems, new SortByDate());
 
                             for (int k = 0; k<inventoryItems.size();k++){
+                                if (k != 0){
+                                    int change = inventoryItems.get(k).getChange();
+                                    int stock = inventoryItems.get(k-1).getStock();
+                                    if (inventoryItems.get(k).getType() == 1)
+                                        inventoryItems.get(k).setStock(stock + change);
+                                    else if (inventoryItems.get(k).getType() == 0)
+                                        inventoryItems.get(k).setStock(stock - change);
+                                }
+
                                 FirebaseDatabase.getInstance().getReference()
                                         .child("real").child("history").child(String.valueOf(storeCode)).child(currentPrdName)
-                                        .child(String.valueOf(k)).setValue(inventoryItems.get(k));
+                                        .child(kKeys.get(k)).setValue(inventoryItems.get(k));
                             }
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("real").child("stock").child(String.valueOf(storeCode)).child(currentPrdName)
+                                    .setValue(inventoryItems.get(inventoryItems.size()-1).getStock());
+                            kKeys.clear();
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -252,6 +272,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                         }
                     });
         }
+        Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -344,8 +365,10 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     }
 
     private class SortByDate implements Comparator<InventoryItem> {
+        //날짜를 지정할때 두자리로 저장
         @Override
         public int compare(InventoryItem a, InventoryItem b) {
+
             return a.getDate().compareTo(b.getDate());
         }
     }
