@@ -18,9 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.PrdAddFragment;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -122,7 +121,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PrdListActivity.this);
-        adapter = new PrdListAdapter(PrdCase.LIST, prdItems);
+        adapter = new PrdListAdapter(ViewHolderCasePrd.LIST, prdItems);
         RecyclerView mRecyclerView = findViewById(R.id.prdList_recyclerview);
         mRecyclerView.setHasFixedSize(true);
 

@@ -1,5 +1,5 @@
 package com.example.nonodeluxe.model;
 
-public enum PrdCase {
+public enum ViewHolderCasePrd {
     LIST,ADD,NEW,SIMPLE
 }

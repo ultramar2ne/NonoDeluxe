@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.model.MyItemView;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 import com.example.nonodeluxe.viewholder.PrdAddViewHolder;
 import com.example.nonodeluxe.viewholder.PrdListViewHolder;
@@ -22,14 +22,14 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private Boolean[] prdChecked;
 
-    private PrdCase sel_type;
+    private ViewHolderCasePrd sel_type;
 
-    public PrdListAdapter(PrdCase sel_type, ArrayList<PrdItem> prdItems) {
+    public PrdListAdapter(ViewHolderCasePrd sel_type, ArrayList<PrdItem> prdItems) {
         this.sel_type = sel_type;
         this.prdItems = prdItems;
     }
 
-    public PrdListAdapter(PrdCase sel_type, ArrayList<PrdItem> prdItems, Boolean[] prdChecked) {
+    public PrdListAdapter(ViewHolderCasePrd sel_type, ArrayList<PrdItem> prdItems, Boolean[] prdChecked) {
         this.sel_type = sel_type;
         this.prdItems = prdItems;
         this.prdChecked = prdChecked;
@@ -49,16 +49,16 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
 
         View view;
 
-        if (sel_type == PrdCase.LIST){
+        if (sel_type == ViewHolderCasePrd.LIST){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd,parent,false);
             return new PrdListViewHolder(view, onItemClickListener);
-        } else if (sel_type == PrdCase.ADD){
+        } else if (sel_type == ViewHolderCasePrd.ADD){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add,parent,false);
             return new PrdAddViewHolder(view, onItemClickListener);
-        } else if (sel_type == PrdCase.NEW){
+        } else if (sel_type == ViewHolderCasePrd.NEW){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd_add_selected,parent,false);
             return new PrdSelectedViewHolder(view, onItemClickListener);
-        } else if (sel_type == PrdCase.SIMPLE){
+        } else if (sel_type == ViewHolderCasePrd.SIMPLE){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_prd,parent,false);
             return new PrdListViewHolder(view, onItemClickListener);
         }
@@ -72,10 +72,10 @@ public class PrdListAdapter extends RecyclerView.Adapter<MyItemView> {
     @Override
     public void onBindViewHolder(@NonNull MyItemView holder, int position) {
         if (holder instanceof PrdListViewHolder){
-            if (sel_type == PrdCase.LIST){
+            if (sel_type == ViewHolderCasePrd.LIST){
                 PrdListViewHolder viewHolder = (PrdListViewHolder)holder;
                 viewHolder.onBind(prdItems.get(position));
-            } else if (sel_type == PrdCase.SIMPLE){
+            } else if (sel_type == ViewHolderCasePrd.SIMPLE){
                 PrdListViewHolder viewHolder = (PrdListViewHolder)holder;
                 viewHolder.onBindSimple(prdItems.get(position));
             }

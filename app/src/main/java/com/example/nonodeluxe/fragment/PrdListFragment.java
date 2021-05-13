@@ -1,28 +1,20 @@
 package com.example.nonodeluxe.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.ScanCodeActivity;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 
 import java.util.ArrayList;
@@ -71,7 +63,7 @@ public class PrdListFragment extends Fragment {
     private void setRecyclerView() {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new PrdListAdapter(PrdCase.LIST,prdItems);
+        adapter = new PrdListAdapter(ViewHolderCasePrd.LIST,prdItems);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

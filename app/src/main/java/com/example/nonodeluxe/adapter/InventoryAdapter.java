@@ -9,17 +9,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.model.InventoryItem;
+import com.example.nonodeluxe.model.MyItemView;
+import com.example.nonodeluxe.model.ViewHolderCaseInventory;
 import com.example.nonodeluxe.viewholder.InventoryViewHolder;
+import com.example.nonodeluxe.viewholder.InventoryViewHolderWithName;
 
 import java.util.ArrayList;
 
-;
 
-public class InventoryAdapter extends RecyclerView.Adapter<InventoryViewHolder> {
+public class InventoryAdapter extends RecyclerView.Adapter<MyItemView> {
     private OnItemClickListener onItemClickListener;
     private ArrayList<InventoryItem> inventoryItems;
 
-    public InventoryAdapter(ArrayList<InventoryItem> inventoryItems) {
+    private ViewHolderCaseInventory sel_type;
+
+    public InventoryAdapter(ViewHolderCaseInventory sel_type , ArrayList<InventoryItem> inventoryItems) {
+        this.sel_type = sel_type;
         this.inventoryItems = inventoryItems;
     }
 
@@ -33,16 +38,29 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryViewHolder> 
 
     @NonNull
     @Override
-    public InventoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history, parent, false);
-        InventoryViewHolder evh = new InventoryViewHolder(view, onItemClickListener);
-        return evh;
+    public MyItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+
+        if (sel_type == ViewHolderCaseInventory.FULL){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inventory, parent, false);
+            return new InventoryViewHolder(view, onItemClickListener);
+        } else if (sel_type == ViewHolderCaseInventory.NAME){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inventory_with_name, parent, false);
+            return new InventoryViewHolderWithName(view, onItemClickListener);
+        }
+
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InventoryViewHolder holder, int position) {
-        InventoryViewHolder viewHolder = (InventoryViewHolder)holder;
-        viewHolder.onBind(inventoryItems.get(position));
+    public void onBindViewHolder(@NonNull MyItemView holder, int position) {
+        if (holder instanceof InventoryViewHolder){
+            InventoryViewHolder viewHolder = (InventoryViewHolder)holder;
+            viewHolder.onBind(inventoryItems.get(position));
+        } else if (holder instanceof InventoryViewHolderWithName){
+            InventoryViewHolderWithName viewHolder = (InventoryViewHolderWithName)holder;
+            viewHolder.onBind(inventoryItems.get(position));
+        }
     }
 
     @Override

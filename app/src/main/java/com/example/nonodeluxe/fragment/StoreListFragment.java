@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nonodeluxe.R;
-import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.adapter.StoreListAdapter;
-import com.example.nonodeluxe.model.PrdCase;
 import com.example.nonodeluxe.model.PrdItem;
 import com.example.nonodeluxe.model.StoreItem;
 

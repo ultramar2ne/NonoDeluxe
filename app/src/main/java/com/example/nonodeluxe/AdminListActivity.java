@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.adapter.StoreListAdapter;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 import com.example.nonodeluxe.model.StoreItem;
 import com.google.firebase.database.DataSnapshot;
@@ -65,7 +65,7 @@ public class AdminListActivity extends AppCompatActivity {
     private void setPrdRecyclerView() {
         setPrdData();
 
-        prdListAdapter = new PrdListAdapter(PrdCase.SIMPLE,prdItems);
+        prdListAdapter = new PrdListAdapter(ViewHolderCasePrd.SIMPLE,prdItems);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(prdListAdapter);

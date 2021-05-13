@@ -25,6 +25,7 @@ import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.fragment.PrdListFragment;
 import com.example.nonodeluxe.model.InventoryItem;
 import com.example.nonodeluxe.model.PrdItem;
+import com.example.nonodeluxe.model.ViewHolderCaseInventory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -130,7 +131,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new InventoryAdapter(addItems);
+        adapter = new InventoryAdapter(ViewHolderCaseInventory.NAME,addItems);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

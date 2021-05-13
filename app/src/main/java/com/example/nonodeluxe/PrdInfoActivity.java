@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.nonodeluxe.adapter.InventoryAdapter;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
 import com.example.nonodeluxe.model.InventoryItem;
+import com.example.nonodeluxe.model.ViewHolderCaseInventory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -103,7 +104,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        inventoryAdapter = new InventoryAdapter(inventoryItems);
+        inventoryAdapter = new InventoryAdapter(ViewHolderCaseInventory.FULL,inventoryItems);
 //        inventoryAdapter.setOnItemClickListener();
 
         recyclerView.setLayoutManager(layoutManager);
