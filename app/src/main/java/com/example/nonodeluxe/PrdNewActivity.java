@@ -1,6 +1,7 @@
 package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -31,7 +32,8 @@ public class PrdNewActivity extends AppCompatActivity implements View.OnClickLis
     ImageButton btn_scanner;
     Button btn_save;
     Spinner btn_category;
-    EditText edt_name, edt_barcode, edt_standard;
+    public static EditText edt_barcode;
+    EditText edt_name, edt_standard;
 
     private String[] category = {"원재료","시럽/소스","파우더/라떼","일회용품"};
     private int currentCategory = 0;
@@ -62,25 +64,37 @@ public class PrdNewActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v == btn_scanner) {
-            Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
+            Intent intent = new Intent(getApplicationContext(),ScanCodeActivitySimple.class);
+            startActivity(intent);
+//            startActivityForResult(intent,0);
 //            intent.putExtra("ItemList",prdItems);
 //            startActivityForResult(intent,0);
         }
         if (v == btn_save) {
-            try {
-                if (!chkNullPointer()){
-                    Toast.makeText(getApplicationContext(),"위의 내용을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
-                }else if (!chkOverlap()){
-                    Toast.makeText(getApplicationContext(),"이미 있는 상품입니다.",Toast.LENGTH_SHORT).show();
-                }else {
-                    addNewProduct();
-                    onBackPressed();
-                    Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-            } catch (NumberFormatException e){
-                Toast.makeText(getApplicationContext(),"바코드는 숫자형식으로 입력해주세요.",Toast.LENGTH_SHORT).show();
+            if (!chkNullPointer()){
+                Toast.makeText(getApplicationContext(),"위의 내용을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+            }else if (!chkOverlap()){
+                Toast.makeText(getApplicationContext(),"이미 있는 상품입니다.",Toast.LENGTH_SHORT).show();
+            }else {
+                addNewProduct();
+                onBackPressed();
+                Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
             }
 
+
+//            try {
+//                if (!chkNullPointer()){
+//                    Toast.makeText(getApplicationContext(),"위의 내용을 모두 입력해주세요.",Toast.LENGTH_SHORT).show();
+//                }else if (!chkOverlap()){
+//                    Toast.makeText(getApplicationContext(),"이미 있는 상품입니다.",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    addNewProduct();
+//                    onBackPressed();
+//                    Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
+//                }
+//            } catch (NumberFormatException e){
+//                Toast.makeText(getApplicationContext(),"바코드는 숫자형식으로 입력해주세요.",Toast.LENGTH_SHORT).show();
+//            }
 
         }
     }
@@ -118,8 +132,8 @@ public class PrdNewActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean chkOverlap(){
         for (int i = 0; i < prdItems.size() ; i++){
-            if (!prdItems.get(i).getName().equals(edt_name.getText())){
-                if (prdItems.get(i).getBarcode() == Integer.parseInt(edt_barcode.getText().toString())){
+            if (!prdItems.get(i).getName().equals(edt_name.getText().toString())){
+                if (prdItems.get(i).getBarcode().equals(edt_barcode.getText().toString())){
                     return false;
                 }
             } else {
@@ -137,7 +151,7 @@ public class PrdNewActivity extends AppCompatActivity implements View.OnClickLis
 
         PrdItem prdItem = new PrdItem();
         prdItem.setName(edt_name.getText().toString());
-        prdItem.setBarcode(Integer.parseInt(edt_barcode.getText().toString()));
+        prdItem.setBarcode(edt_barcode.getText().toString());
         prdItem.setCategory(category[currentCategory]);
         prdItem.setStandard(edt_standard.getText().toString());
 
@@ -145,4 +159,9 @@ public class PrdNewActivity extends AppCompatActivity implements View.OnClickLis
                 .child("real").child("product").child(String.valueOf(prdItems.size()))
                 .setValue(prdItem);
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

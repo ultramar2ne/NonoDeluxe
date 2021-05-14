@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.Locale;
 
 public class StockChangeActivity extends AppCompatActivity implements View.OnClickListener, PrdListFragment.OnFragmentInteractionListener, NumberPicker.OnValueChangeListener {
@@ -108,15 +108,12 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         setPrdData();
         setRecyclerView();
 
-        String ggDate = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(mDate);
+        btn_type.setText("입고");
+        btn_date.setText(new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA).format(mDate));
 
         mYear = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(mDate));
         mMonth = Integer.parseInt(new SimpleDateFormat("MM",Locale.KOREA).format(mDate));
         mDay = Integer.parseInt(new SimpleDateFormat("dd",Locale.KOREA).format(mDate));
-
-        btn_type.setText("입고");
-        btn_date.setText(ggDate);
-//        btn_date.setText(mYear + "/" + mMonth + "/" + mDay);
 
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -127,21 +124,6 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 btn_date.setText(String.format("%4d-%02d-%02d",mYear,mMonth,mDay));
             }
         };
-    }
-
-    private void setRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        adapter = new InventoryAdapter(ViewHolderCaseInventory.NAME,addItems);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new InventoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
-        });
     }
 
     @Override
@@ -176,28 +158,11 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.change_btn_add:
-                int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
-                InventoryItem currentItem = new InventoryItem();
-                String date = String.format("%4d-%02d-%02d",mYear,mMonth,mDay);
-//                String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
-                currentItem.setDate(date);
-                currentItem.setChange(changeStock);
-                currentItem.setName(selectedItem.getName());
-
-                if (!changedStockItems.contains(selectedItem.getName()))
-                    changedStockItems.add(selectedItem.getName());
-
-                if (btn_type.getText().toString().equals("입고")){
-                    int i = selectedItem.getStock() + changeStock;
-                    currentItem.setStock(i);
-                    currentItem.setType(1);
+                if (!btn_search.getText().toString().equals("")){
+                    addStockItem();
                 } else {
-                    currentItem.setStock(selectedItem.getStock() - changeStock);
-                    currentItem.setType(0);
+                    Toast.makeText(getApplicationContext(),"제품을 선택해주세요.",Toast.LENGTH_SHORT).show();
                 }
-
-                addItems.add(currentItem);
-                adapter.notifyDataSetChanged();
                 break;
 
             case R.id.change_btn_barcode:
@@ -205,29 +170,139 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                 intent.putExtra("ItemList",prdItems);
                 startActivityForResult(intent,0);
                 break;
+
             case R.id.change_btn_save:
-
-                progressDialog.show();
-
-                for (int i = 0 ; i < addItems.size();i++){
-                    String name = addItems.get(i).getName();
-                    addItems.get(i).setName(null);
-
-                    String key = FirebaseDatabase.getInstance().getReference()
-                            .child("real").child("history").child(String.valueOf(storeCode)).child(name).push().getKey();
-
-                    FirebaseDatabase.getInstance().getReference()
-                            .child("real").child("history").child(String.valueOf(storeCode)).child(name)
-                            .child(key).setValue(addItems.get(i));
+                if (!addItems.isEmpty()){
+                    uploadInventoryItems();
+                    sortInventoryItems();
+                    Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                } else{
+                    Toast.makeText(getApplicationContext(),"저장할 요소가 없습니다.",Toast.LENGTH_SHORT).show();
                 }
-                sortInventoryItems();
-
-                progressDialog.dismiss();
-                onBackPressed();
                 break;
 
             default:
                 break;
+        }
+    }
+
+    private void setRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter = new InventoryAdapter(ViewHolderCaseInventory.NAME,addItems);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                adapter.move(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.removeAtPosition(viewHolder.getAdapterPosition());
+
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        adapter.setOnItemClickListener(new InventoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
+    }
+
+    private void addStockItem(){
+        int changeStock = Integer.parseInt(btn_changeStock.getText().toString());
+        InventoryItem currentItem = new InventoryItem();
+        String date = String.format("%4d-%02d-%02d",mYear,mMonth,mDay);
+        currentItem.setDate(date);
+        currentItem.setChange(changeStock);
+        currentItem.setName(selectedItem.getName());
+
+        if (!changedStockItems.contains(selectedItem.getName()))
+            changedStockItems.add(selectedItem.getName());
+
+        if (btn_type.getText().toString().equals("입고")){
+            int i = selectedItem.getStock() + changeStock;
+            currentItem.setStock(i);
+            currentItem.setType(1);
+        } else {
+            currentItem.setStock(selectedItem.getStock() - changeStock);
+            currentItem.setType(0);
+        }
+        addItems.add(currentItem);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setStockData() {
+
+        btn_scanner.setClickable(false);
+        // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
+        stockItems.clear();
+        stockKeys.clear();
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("stock").child(String.valueOf(storeCode))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                            String currentkey = currentSnapshot.getKey();
+                            stockItems.add(currentSnapshot.getValue(Integer.class));
+                            stockKeys.add(currentkey);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void setPrdData() {
+        prdItems.clear();
+        FirebaseDatabase.getInstance().getReference()
+                .child("real").child("product")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
+                            PrdItem currentItem = currentSnapshot.getValue(PrdItem.class);
+
+                            for (int i = 0 ; i < stockKeys.size() ; i ++){
+                                if (currentItem.getName().equals(stockKeys.get(i))){
+                                    currentItem.setStock(stockItems.get(i));
+                                    prdItems.add(currentItem);
+                                }
+                            }
+
+                        }
+                        progressDialog.dismiss();
+                        btn_scanner.setClickable(true);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void uploadInventoryItems() {
+        for (int i = 0 ; i < addItems.size();i++){
+            String name = addItems.get(i).getName();
+            addItems.get(i).setName(null);
+
+            String key = FirebaseDatabase.getInstance().getReference()
+                    .child("real").child("history").child(String.valueOf(storeCode)).child(name).push().getKey();
+
+            FirebaseDatabase.getInstance().getReference()
+                    .child("real").child("history").child(String.valueOf(storeCode)).child(name)
+                    .child(key).setValue(addItems.get(i));
         }
     }
 
@@ -273,67 +348,7 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
                         }
                     });
         }
-        Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
-
     }
-
-    private void setStockData() {
-
-        btn_scanner.setClickable(false);
-        // 처리량이 조금 느림. 그러나 처리 하나가 더 추가되어야함.
-        stockItems.clear();
-        stockKeys.clear();
-        FirebaseDatabase.getInstance().getReference()
-                .child("real").child("stock").child(String.valueOf(storeCode))
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                            String currentkey = currentSnapshot.getKey();
-                            stockItems.add(currentSnapshot.getValue(Integer.class));
-                            stockKeys.add(currentkey);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
-
-    private void setPrdData() {
-        prdItems.clear();
-//        etcItems.clear();
-        FirebaseDatabase.getInstance().getReference()
-                .child("real").child("product")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-//                            boolean check = false;
-                            PrdItem currentItem = currentSnapshot.getValue(PrdItem.class);
-
-                            for (int i = 0 ; i < stockKeys.size() ; i ++){
-                                if (currentItem.getName().equals(stockKeys.get(i))){
-//                                    check = true;
-                                    currentItem.setStock(stockItems.get(i));
-                                    prdItems.add(currentItem);
-                                }
-                            }
-
-                        }
-                        progressDialog.dismiss();
-                        btn_scanner.setClickable(true);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
-
 
     public void openFragment(ArrayList<PrdItem> prdItems){
         PrdListFragment fragment = PrdListFragment.newInstance(prdItems);
@@ -342,15 +357,6 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
         transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.exit_to_right,R.anim.enter_from_right,R.anim.exit_to_right);
         transaction.addToBackStack(null);
         transaction.add(R.id.change_container,fragment).commit();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null){
-            selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
-            btn_search.setText(selectedItem.getName());
-        }
     }
 
     @Override
@@ -363,6 +369,15 @@ public class StockChangeActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
         btn_changeStock.setText(picker.getValue() + 1 + "");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
+            btn_search.setText(selectedItem.getName());
+        }
     }
 
     private class SortByDate implements Comparator<InventoryItem> {

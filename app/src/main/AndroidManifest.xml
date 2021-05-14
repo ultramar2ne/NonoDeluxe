@@ -21,6 +21,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ScanCodeActivity" />
+        <activity android:name=".ScanCodeActivitySimple" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -50,11 +50,9 @@ public class PrdListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_prd_list, container, false);
         recyclerView = view.findViewById(R.id.frag_prdList_recyclerview);
         toolbar = view.findViewById(R.id.frag_prdList_toolbar);
-
         toolbar.setTitle("제품 선택");
 
         setRecyclerView();
-
 
         // Inflate the layout for this fragment
         return view;

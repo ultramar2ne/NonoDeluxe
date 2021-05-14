@@ -5,12 +5,12 @@ public class PrdItem  extends MyItem{
     private String category;
     private int stock;
     private String standard;
-    private int barcode;
+    private String barcode;
 
     public PrdItem() {
     }
 
-    public PrdItem(String name, String category, int stock, String standard, int barcode){
+    public PrdItem(String name, String category, int stock, String standard, String barcode){
         this.name = name;
         this.category = category;
         this.stock = stock;
@@ -51,11 +51,11 @@ public class PrdItem  extends MyItem{
         this.standard = standard;
     }
 
-    public int getBarcode() {
+    public String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(int barcode) {
+    public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
 }

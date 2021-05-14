@@ -119,6 +119,7 @@
         android:id="@+id/change_btn_save"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:src="@drawable/ic_item_save_dark"
         android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

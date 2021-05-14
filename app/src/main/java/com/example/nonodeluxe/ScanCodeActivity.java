@@ -52,17 +52,14 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
     }
 
     private void onCheckList(Result result){
-
-        String str;
-        int resultBarcode;
+        String resultBarcode;
         boolean check = false;
 
         try {
-            str = result.getText();
-            resultBarcode = Integer.parseInt(str);
+            resultBarcode = result.getText();
 
             for (PrdItem currentItem : prdItems){
-                if (currentItem.getBarcode() == resultBarcode){
+                if (currentItem.getBarcode().equals(resultBarcode)){
                     check = true;
                     Intent outIntent = new Intent(getApplicationContext(),PrdListActivity.class);
                     outIntent.putExtra("prd_selected",currentItem);
@@ -120,7 +117,6 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
             }
         });
         dialog.show();
-
     }
 
     @Override

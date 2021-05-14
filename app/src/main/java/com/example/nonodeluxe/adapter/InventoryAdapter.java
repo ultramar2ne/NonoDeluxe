@@ -68,4 +68,18 @@ public class InventoryAdapter extends RecyclerView.Adapter<MyItemView> {
         return inventoryItems.size();
     }
 
+    public void removeAtPosition(int position){
+        if (position < inventoryItems.size()){
+            inventoryItems.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void move(int fromPosition, int toPosition){
+        final InventoryItem current = inventoryItems.get(fromPosition);
+        inventoryItems.remove(fromPosition);
+        inventoryItems.add(toPosition, current);
+        notifyItemMoved(fromPosition,toPosition);
+    }
+
 }
