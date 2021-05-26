@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/corner_round"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 

@@ -2,6 +2,7 @@ package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,8 +48,6 @@ public class AdminListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.adminList_recycler);
 
         toolbar = (Toolbar)findViewById(R.id.adminList_toolbar);
-        setSupportActionBar(toolbar);
-
 
         check = getIntent().getBooleanExtra("check",false);
         mode = getIntent().getIntExtra("mode",0);
@@ -60,6 +59,7 @@ public class AdminListActivity extends AppCompatActivity {
             toolbar.setTitle("매장별 목록");
             setStoreRecyclerView();
         }
+        setSupportActionBar(toolbar);
     }
 
     private void setPrdRecyclerView() {
@@ -138,6 +138,7 @@ public class AdminListActivity extends AppCompatActivity {
                     storeItems.add(storeItem);
                 }
                 storeListAdapter.notifyDataSetChanged();
+                storeListAdapter.setStoreItemsFull(storeItems);
             }
 
             @Override
@@ -158,6 +159,24 @@ public class AdminListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.toolbar_search:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        storeListAdapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+                return true;
+            default:
+                return true;
+        }
     }
 }

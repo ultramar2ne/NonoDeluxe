@@ -3,6 +3,7 @@ package com.example.nonodeluxe;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -43,6 +44,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
     SwipeRefreshLayout refreshLayout;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         setStockData();
         setPrdData();
         setRecyclerView();
+
     }
 
     private void setStockData() {
@@ -110,6 +113,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        adapter.setPrdItemsFull(prdItems);
                     }
 
                     @Override
@@ -139,6 +143,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_prdlist_dark, menu);
+
         return true;
     }
 
@@ -147,6 +152,20 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
         switch (item.getItemId()) {
             case R.id.toolbar_search:
+                searchView = (SearchView) item.getActionView();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+
                 return true;
             case R.id.toolbar_scanner:
                 Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
@@ -180,6 +199,8 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         super.onRestart();
         setStockData();
         setPrdData();
+        invalidateOptionsMenu();        // toolbar 초기화
+        Toast.makeText(getApplicationContext(),"이건가",Toast.LENGTH_SHORT).show();
     }
 
     @Override

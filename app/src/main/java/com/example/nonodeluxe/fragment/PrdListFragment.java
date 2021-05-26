@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,13 @@ import com.example.nonodeluxe.model.PrdItem;
 
 import java.util.ArrayList;
 
-public class PrdListFragment extends Fragment {
+public class PrdListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private OnFragmentInteractionListener listener;
 
     ArrayList<PrdItem> prdItems = new ArrayList<>();
     RecyclerView recyclerView;
+    SwipeRefreshLayout refreshLayout;
     Toolbar toolbar;
     PrdListAdapter adapter;
 
@@ -51,6 +53,9 @@ public class PrdListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.frag_prdList_recyclerview);
         toolbar = view.findViewById(R.id.frag_prdList_toolbar);
         toolbar.setTitle("제품 선택");
+
+        refreshLayout = view.findViewById(R.id.prdList_refresh);
+        refreshLayout.setOnRefreshListener(this);
 
         setRecyclerView();
 
@@ -91,6 +96,14 @@ public class PrdListFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    @Override
+    public void onRefresh() {
+//        setStockData();
+//        setPrdData();
+        refreshLayout.setRefreshing(false);
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
