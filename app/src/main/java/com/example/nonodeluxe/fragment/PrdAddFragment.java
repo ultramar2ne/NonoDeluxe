@@ -15,9 +15,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,7 +28,7 @@ import java.util.HashMap;
 
 public class PrdAddFragment extends Fragment implements View.OnClickListener, PrdListAdapter.OnItemClickListener {
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
 
     RecyclerView recyclerView;
     RecyclerView recycelrview_showAdd;
@@ -92,7 +93,7 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new PrdListAdapter(PrdCase.ADD,prdItems,checked);
+        adapter = new PrdListAdapter(ViewHolderCasePrd.ADD,prdItems,checked);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -145,7 +146,7 @@ public class PrdAddFragment extends Fragment implements View.OnClickListener, Pr
         });
 
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
-        adapter_showAdd = new PrdListAdapter(PrdCase.NEW,addItems);
+        adapter_showAdd = new PrdListAdapter(ViewHolderCasePrd.NEW,addItems);
         recycelrview_showAdd.setLayoutManager(layoutManager1);
         recycelrview_showAdd.setAdapter(adapter_showAdd);
         adapter_showAdd.setOnItemClickListener(this);

@@ -4,13 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EmpMainActivity">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout">
+        android:id="@+id/appBarLayout"
+        android:background="@color/colorPrimary">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_refresh"
+                    android:src="@drawable/ic_item_refresh_dark"
                     android:background="@color/transparent"
                     app:layout_constraintLeft_toRightOf="@id/info_txt_date"
                     app:layout_constraintTop_toTopOf="parent"
@@ -107,6 +107,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <include
+                layout="@layout/item_indicator_month"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_info"

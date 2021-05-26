@@ -17,10 +17,10 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nonodeluxe.adapter.HistoryAdapter;
-import com.example.nonodeluxe.fragment.MainEmpFragment;
+import com.example.nonodeluxe.adapter.InventoryAdapter;
 import com.example.nonodeluxe.fragment.NumberPickerDialog;
-import com.example.nonodeluxe.model.HistoryItem;
+import com.example.nonodeluxe.model.InventoryItem;
+import com.example.nonodeluxe.model.ViewHolderCaseInventory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,11 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class PrdInfoActivity extends AppCompatActivity implements View.OnClickListener, NumberPicker.OnValueChangeListener {
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private Date mDate = new Date(System.currentTimeMillis());
@@ -40,7 +42,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
     int mYear, mMonth, mDay;
 
     RecyclerView recyclerView;
-    HistoryAdapter historyAdapter;
+    InventoryAdapter inventoryAdapter;
     NumberPickerDialog numberPickerDialog;
 
     Button btn_input;
@@ -52,7 +54,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
     String prd_name;
     int type;
 
-    private ArrayList<HistoryItem> historyItems = new ArrayList<>();
+    private ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +104,11 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        historyAdapter = new HistoryAdapter(historyItems);
-//        historyAdapter.setOnItemClickListener();
+        inventoryAdapter = new InventoryAdapter(ViewHolderCaseInventory.FULL,inventoryItems);
+//        inventoryAdapter.setOnItemClickListener();
 
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(historyAdapter);
+        recyclerView.setAdapter(inventoryAdapter);
     }
 
     private void getPrdHistory() {
@@ -116,12 +118,12 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        historyItems.clear();
+                        inventoryItems.clear();
                         for (DataSnapshot currentSnapshot : snapshot.getChildren()){
-                            HistoryItem historyItem = currentSnapshot.getValue(HistoryItem.class);
-                            historyItems.add(0, historyItem);
+                            InventoryItem inventoryItem = currentSnapshot.getValue(InventoryItem.class);
+                            inventoryItems.add(0, inventoryItem);
                         }
-                        historyAdapter.notifyDataSetChanged();
+                        inventoryAdapter.notifyDataSetChanged();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -173,7 +175,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
         int currentStock;
         int stock = 0;
 
-        if (historyItems.size() == 0){
+        if (inventoryItems.size() == 0){
             if (type == 1){
                 stock = picker.getValue();
             } else {
@@ -181,7 +183,7 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
 
         } else {
-            currentStock = historyItems.get(0).getStock();
+            currentStock = inventoryItems.get(0).getStock();
 
             if (type == 1){
                 stock = currentStock + picker.getValue();
@@ -190,15 +192,21 @@ public class PrdInfoActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        HistoryItem newItem = new HistoryItem(mYear,mMonth,mDay,picker.getValue(),stock,type);
+        String date = String.valueOf(mYear) + "-" + String.valueOf(mMonth) + "-" + String.valueOf(mDay);
+        InventoryItem newItem = new InventoryItem(date,picker.getValue(),stock,type);
+
+        String key = FirebaseDatabase.getInstance().getReference()
+                .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name).push().getKey();
+
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("history").child(String.valueOf(storeCode)).child(prd_name)
-                .child(String.valueOf(historyItems.size())).setValue(newItem);
+                .child(key).setValue(newItem);
 
         FirebaseDatabase.getInstance().getReference()
                 .child("real").child("stock").child(String.valueOf(storeCode)).child(prd_name)
                 .setValue(stock);
 
-        historyAdapter.notifyDataSetChanged();
+        inventoryAdapter.notifyDataSetChanged();
     }
+
 }

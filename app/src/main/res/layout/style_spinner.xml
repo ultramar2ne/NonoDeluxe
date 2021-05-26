@@ -5,10 +5,10 @@
     android:gravity="center"
     android:fontFamily="@font/jsdongkang"
     android:autoSizeTextType="uniform"
-    android:autoSizeMaxTextSize="50sp"
-    android:autoSizeMinTextSize="20sp"
+    android:autoSizeMaxTextSize="20sp"
+    android:autoSizeMinTextSize="15sp"
     android:textColor="@color/black"
-    android:textSize="20sp"
+    android:textSize="18sp"
     android:textStyle="bold"
     android:padding="10dp">
 </TextView>

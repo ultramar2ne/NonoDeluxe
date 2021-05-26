@@ -14,14 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nonodeluxe.MainActivity;
 import com.example.nonodeluxe.PrdListActivity;
+import com.example.nonodeluxe.PrdNewActivity;
 import com.example.nonodeluxe.Preferences;
 import com.example.nonodeluxe.R;
+import com.example.nonodeluxe.StockChangeActivity;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
 import com.example.nonodeluxe.model.MainMenuItem;
 import com.example.nonodeluxe.model.StoreItem;
@@ -38,8 +40,6 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
     private RecyclerView recyclerView;
     private MainMenuAdapter mainMenuAdapter;
     ArrayAdapter<String> arrayAdapter;
-
-    public static int currentStoreCode;
 
     TextView empName;
     Spinner spinner;
@@ -69,7 +69,7 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
         View view = inflater.inflate(R.layout.fragment_main_emp, container, false);
 
         fillStoreList();
-        fillExampleList();
+        fillMenuList();
 
         toolbar = view.findViewById(R.id.main_emp_toolbar);
         empName = view.findViewById(R.id.main_empName);
@@ -78,7 +78,6 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
         arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.style_spinner,strings);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
-        currentStoreCode = 0;
 
         toolbar.setTitle(Preferences.getString(getActivity(),"unitName"));
         empName.setText("담당자: " +  Preferences.getString(getActivity(),"id"));
@@ -123,35 +122,35 @@ public class MainEmpFragment extends Fragment implements MainMenuAdapter.OnItemC
                 });
     }
 
-    private void fillExampleList() {
+    private void fillMenuList() {
         menuItems = new ArrayList<>();
 
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"입고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입출고"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_main_list,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_add,"상품 추가"));
     }
 
     @Override
     public void onItemClick(int position) {
         switch (position){
             case 0:
+                startActivity(new Intent(getActivity(),StockChangeActivity.class));
                 break;
             case 1:
+                startActivity(new Intent(getActivity(),PrdListActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(getActivity(), PrdNewActivity.class));
                 break;
             case 3:
-                Intent intent = new Intent(getActivity(), PrdListActivity.class);
-//                intent.putExtra("hello","hello");
-                startActivity(intent);
+
                 break;
         }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        currentStoreCode = storeItems.get(position).getStore_code();
+        MainActivity.currentStoreCode = storeItems.get(position).getStore_code();
 //        Toast.makeText(getActivity(),storeItems.get(position).getStore_name(),Toast.LENGTH_SHORT).show();
     }
 

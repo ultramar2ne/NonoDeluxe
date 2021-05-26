@@ -12,11 +12,13 @@ import android.view.View;
 import com.example.nonodeluxe.fragment.CalendarFragment;
 import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.MainAdminFragment;
+import com.example.nonodeluxe.fragment.MainStoreFragment;
 import com.example.nonodeluxe.fragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static int currentStoreCode = 0;
     Fragment HomeFragment ;
 
     @Override
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             case "partic":
                 HomeFragment = new MainEmpFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MainEmpFragment()).commit();
+                        new MainStoreFragment()).commit();
                 bottomNavigationView.setVisibility(View.GONE);
                 break;
             default:

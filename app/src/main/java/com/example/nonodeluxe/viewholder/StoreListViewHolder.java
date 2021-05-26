@@ -20,7 +20,7 @@ public class StoreListViewHolder extends RecyclerView.ViewHolder {
 
     public StoreListViewHolder(@NonNull final View view, final StoreListAdapter.OnItemClickListener listener) {
         super(view);
-        store_code = view.findViewById(R.id.item_storeCode);
+//        store_code = view.findViewById(R.id.item_storeCode);
         store_name = view.findViewById(R.id.item_storeName);
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +39,6 @@ public class StoreListViewHolder extends RecyclerView.ViewHolder {
     public void onBind(MyItem data){
         storeItem = (StoreItem) data;
         store_name.setText(storeItem.getStore_name());
-        store_code.setText(storeItem.getStore_code() + "호점");
+//        store_code.setText(storeItem.getStore_code() + "호점");
     }
 }

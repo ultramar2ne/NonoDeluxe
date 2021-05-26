@@ -1,7 +1,9 @@
 package com.example.nonodeluxe;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,9 +19,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.nonodeluxe.adapter.PrdListAdapter;
-import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.PrdAddFragment;
-import com.example.nonodeluxe.model.PrdCase;
+import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,11 +39,12 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
     private ArrayList<PrdItem> prdItems = new ArrayList<>();
     private ArrayList<PrdItem> etcItems = new ArrayList<>();
 
-    private int storeCode = MainEmpFragment.currentStoreCode;
+    private int storeCode = MainActivity.currentStoreCode;
 
 //    private String currentStore = Preferences.getString(PrdListActivity.this,"currentStoreCode");
     Toolbar toolbar;
     SwipeRefreshLayout refreshLayout;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         setStockData();
         setPrdData();
         setRecyclerView();
+
     }
 
     private void setStockData() {
@@ -110,6 +113,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        adapter.setPrdItemsFull(prdItems);
                     }
 
                     @Override
@@ -121,7 +125,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
     private void setRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(PrdListActivity.this);
-        adapter = new PrdListAdapter(PrdCase.LIST, prdItems);
+        adapter = new PrdListAdapter(ViewHolderCasePrd.LIST, prdItems);
         RecyclerView mRecyclerView = findViewById(R.id.prdList_recyclerview);
         mRecyclerView.setHasFixedSize(true);
 
@@ -138,7 +142,7 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_prdlist_toolbar, menu);
+        getMenuInflater().inflate(R.menu.toolbar_prdlist_dark, menu);
 
         return true;
     }
@@ -148,11 +152,25 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
 
         switch (item.getItemId()) {
             case R.id.toolbar_search:
+                searchView = (SearchView) item.getActionView();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+
                 return true;
             case R.id.toolbar_scanner:
                 Intent intent = new Intent(getApplicationContext(),ScanCodeActivity.class);
                 intent.putExtra("ItemList",prdItems);
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 return true;
             case R.id.toolbar_add:
                 FrameLayout fragmentContainer = (FrameLayout)findViewById(R.id.prdList_fragment_container);
@@ -181,6 +199,8 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         super.onRestart();
         setStockData();
         setPrdData();
+        invalidateOptionsMenu();        // toolbar 초기화
+        Toast.makeText(getApplicationContext(),"이건가",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -188,5 +208,19 @@ public class PrdListActivity extends AppCompatActivity implements SwipeRefreshLa
         setStockData();
         setPrdData();
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                PrdItem selectedItem = (PrdItem) data.getSerializableExtra("prd_selected");
+                Intent intent = new Intent(getApplicationContext(),PrdInfoActivity.class);
+                intent.putExtra("prd_name",selectedItem.getName());
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 }

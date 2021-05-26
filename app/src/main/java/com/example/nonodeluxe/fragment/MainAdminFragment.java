@@ -1,5 +1,6 @@
 package com.example.nonodeluxe.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -11,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nonodeluxe.AdminListActivity;
+import com.example.nonodeluxe.PrdNewActivity;
 import com.example.nonodeluxe.R;
+import com.example.nonodeluxe.StockChangeActivity;
 import com.example.nonodeluxe.adapter.MainMenuAdapter;
 import com.example.nonodeluxe.model.MainMenuItem;
 
@@ -24,6 +28,8 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
     MainMenuAdapter mainMenuAdapter;
     RecyclerView recyclerView;
     Toolbar toolbar;
+
+    Intent intent;
 
     public MainAdminFragment() {
 
@@ -58,22 +64,39 @@ public class MainAdminFragment extends Fragment implements MainMenuAdapter.OnIte
     private void fillMenuItems() {
         menuItems = new ArrayList<>();
 
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_blue,"입고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_red,"출고"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_green,"수정"));
-        menuItems.add(new MainMenuItem(R.drawable.ic_circle_navy,"제품목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_compare_arrows,"입고 및 출고"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_main_list,"매장별 목록"));
+        menuItems.add(new MainMenuItem(R.drawable.ic_add,"상품 추가"));
+//        menuItems.add(new MainMenuItem(R.drawable.ic_format,"제품별 목록"));
     }
 
     @Override
     public void onItemClick(int position) {
         switch (position){
             case 0:
+                intent = new Intent(getActivity(), AdminListActivity.class);
+                intent.putExtra("check",false);
+                intent.putExtra("mode",1);
+                startActivity(intent);
                 break;
             case 1:
+                intent = new Intent(getActivity(), AdminListActivity.class);
+                intent.putExtra("check",false);
+                intent.putExtra("mode",2);
+                startActivity(intent);
+
+//                intent = new Intent(getActivity(), AdminListActivity.class);
+//                intent.putExtra("check",true);
+//                startActivity(intent);        제품별매장목록
                 break;
             case 2:
+                intent = new Intent(getActivity(), PrdNewActivity.class);
+                startActivity(intent);
+
                 break;
             case 3:
+                break;
+            case 4:
                 break;
         }
     }
