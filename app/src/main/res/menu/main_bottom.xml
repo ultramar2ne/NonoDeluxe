@@ -8,6 +8,12 @@
         android:title="@string/menu_home" />
 
     <item
+        android:id="@+id/nav_prd"
+        android:icon="@drawable/ic_nav_calendar"
+        android:enabled="true"
+        android:title="@string/menu_calendar" />
+
+    <item
         android:id="@+id/nav_calendar"
         android:icon="@drawable/ic_nav_calendar"
         android:enabled="true"

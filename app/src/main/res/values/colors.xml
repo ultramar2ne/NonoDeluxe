@@ -91,5 +91,12 @@
     <color name="app_yellow_dark">#F09300</color>
     <color name="app_red">#DB4437</color>
 
+    <!-- popo color -->
+    <color name="popo_primary">#3D5AFE</color>
+    <color name="popo_primary_dark">#121B4D</color>
+    <color name="popo_primary_light">#DBDCE5</color>
+    <color name="popo_background">#FDFAFE</color>
+    <color name="popo_accent">#FEFE3D</color>
+
 
 </resources>

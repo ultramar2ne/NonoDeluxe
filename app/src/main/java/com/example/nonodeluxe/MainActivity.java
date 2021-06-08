@@ -13,6 +13,7 @@ import com.example.nonodeluxe.fragment.CalendarFragment;
 import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.MainAdminFragment;
 import com.example.nonodeluxe.fragment.MainStoreFragment;
+import com.example.nonodeluxe.fragment.PrdListFragment;
 import com.example.nonodeluxe.fragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = HomeFragment;
+                            break;
+
+                        case R.id.nav_prd:
+                            selectedFragment = new PrdListFragment();
                             break;
 
                         case R.id.nav_calendar:

@@ -2,9 +2,18 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/popo_primary</item>
+        <item name="colorPrimaryDark">@color/popo_primary</item>
+        <item name="colorAccent">@color/popo_accent</item>
+
+        <!--        Customize Android Component-->
+<!--        <item name="android:background">@color/popo_background</item>-->
+        <item name="android:statusBarColor">@color/popo_background</item>
+        <item name="android:toolbarStyle">@color/popo_background</item>
+        <item name="android:textColor">@color/xd_dark</item>
+
+        <item name="fontFamily">monospace</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 </resources>

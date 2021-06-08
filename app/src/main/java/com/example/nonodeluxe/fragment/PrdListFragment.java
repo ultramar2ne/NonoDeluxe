@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,6 +20,8 @@ import com.example.nonodeluxe.R;
 import com.example.nonodeluxe.adapter.PrdListAdapter;
 import com.example.nonodeluxe.model.ViewHolderCasePrd;
 import com.example.nonodeluxe.model.PrdItem;
+import com.example.nonodeluxe.viewmodel.PrdViewModel;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 
@@ -29,20 +34,22 @@ public class PrdListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     SwipeRefreshLayout refreshLayout;
     Toolbar toolbar;
     PrdListAdapter adapter;
+    PrdViewModel viewModel;
 
     public static PrdListFragment newInstance(ArrayList<PrdItem> prdItems) {
-        PrdListFragment fragment = new PrdListFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("PrdItems",prdItems);
-        fragment.setArguments(args);
-        return fragment;
+//        PrdListFragment fragment = new PrdListFragment();
+//        Bundle args = new Bundle();
+//        args.putSerializable("PrdItems",prdItems);
+//        fragment.setArguments(args);
+//        return fragment;
+        return new PrdListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            prdItems = (ArrayList<PrdItem>)getArguments().getSerializable("PrdItems");
+//            prdItems = (ArrayList<PrdItem>)getArguments().getSerializable("PrdItems");
         }
     }
 
@@ -54,10 +61,25 @@ public class PrdListFragment extends Fragment implements SwipeRefreshLayout.OnRe
         toolbar = view.findViewById(R.id.frag_prdList_toolbar);
         toolbar.setTitle("제품 선택");
 
+        viewModel = new ViewModelProvider(requireActivity()).get(PrdViewModel.class);
+
         refreshLayout = view.findViewById(R.id.prdList_refresh);
         refreshLayout.setOnRefreshListener(this);
 
-        setRecyclerView();
+//        setRecyclerView();
+
+        LiveData<DataSnapshot> liveData = viewModel.getDataSnapshotLiveData();
+        liveData.observe(requireActivity(), new Observer<DataSnapshot>() {
+            @Override
+            public void onChanged(DataSnapshot dataSnapshot) {
+                for (DataSnapshot currentSnapshot : dataSnapshot.getChildren()){
+                    PrdItem currentItem = currentSnapshot.getValue(PrdItem.class);
+                    prdItems.add(currentItem);
+                }
+
+                setRecyclerView();
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -89,12 +111,12 @@ public class PrdListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof OnFragmentInteractionListener) {
+//            listener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
