@@ -9,20 +9,20 @@
 
     <item
         android:id="@+id/nav_prd"
-        android:icon="@drawable/ic_nav_calendar"
+        android:icon="@drawable/ic_main_list"
         android:enabled="true"
-        android:title="@string/menu_calendar" />
+        android:title="list" />
 
     <item
         android:id="@+id/nav_calendar"
-        android:icon="@drawable/ic_nav_calendar"
+        android:icon="@drawable/ic_compare_arrows"
         android:enabled="true"
-        android:title="@string/menu_calendar" />
+        android:title="입고/출고" />
 
 
     <item
         android:id="@+id/nav_menu"
-        android:icon="@drawable/ic_nav_menu"
+        android:icon="@drawable/ic_setting"
         android:enabled="true"
         android:title="@string/menu_menu" />
 

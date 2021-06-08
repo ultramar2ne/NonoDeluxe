@@ -13,6 +13,7 @@ import com.example.nonodeluxe.fragment.CalendarFragment;
 import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.MainAdminFragment;
 import com.example.nonodeluxe.fragment.MainStoreFragment;
+import com.example.nonodeluxe.fragment.MainYangFragment;
 import com.example.nonodeluxe.fragment.PrdListFragment;
 import com.example.nonodeluxe.fragment.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
                         new MainStoreFragment()).commit();
                 bottomNavigationView.setVisibility(View.GONE);
                 break;
+            case "yang":
+                HomeFragment = new MainYangFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,new MainYangFragment()).commit();
             default:
                 break;
         }
