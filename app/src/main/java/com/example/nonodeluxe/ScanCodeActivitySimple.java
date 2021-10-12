@@ -31,6 +31,7 @@ public class ScanCodeActivitySimple extends AppCompatActivity implements ZXingSc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
+
         scannerView = new ZXingScannerView(this);
         setContentView(scannerView);
 

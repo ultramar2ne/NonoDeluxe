@@ -4,18 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.nonodeluxe.fragment.CalendarFragment;
 import com.example.nonodeluxe.fragment.MainEmpFragment;
 import com.example.nonodeluxe.fragment.MainAdminFragment;
 import com.example.nonodeluxe.fragment.MainStoreFragment;
 import com.example.nonodeluxe.fragment.MainYangFragment;
 import com.example.nonodeluxe.fragment.PrdListFragment;
 import com.example.nonodeluxe.fragment.SettingFragment;
+import com.example.nonodeluxe.yang.UpDownFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case R.id.nav_calendar:
-                            selectedFragment = new CalendarFragment();
+                            selectedFragment = new UpDownFragment();
                             break;
 
                         case R.id.nav_menu:

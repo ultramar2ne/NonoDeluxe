@@ -1,12 +1,26 @@
 package com.example.nonodeluxe.model;
 
 public class InventoryItemVerYang extends MyItem {
-    private String date;
-    private int change;
-    private int stock;
-    private int type;   // input or output
     private String barcode;
-    private String
+    private String empCode;
+    private String name;
+    private String date;
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public String getEmpCode() {
+        return empCode;
+    }
+
+    public void setEmpCode(String empCode) {
+        this.empCode = empCode;
+    }
 
     public String getName() {
         return name;
@@ -15,6 +29,10 @@ public class InventoryItemVerYang extends MyItem {
     public void setName(String name) {
         this.name = name;
     }
+
+    private int change;
+    private int stock;
+    private int type;   // input or output
 
     public InventoryItemVerYang(){
 
